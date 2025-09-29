@@ -18,7 +18,22 @@
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'theme.js' | asset_url | script_tag }}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family={{ settings.type_header_font.family | handle }}:wght@400;500;600;700&family={{ settings.type_body_font.family | handle }}:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    >
 
+    <style>
+      :root {
+          --color-primary: {{ settings.colors_primary }};
+          --color-secondary: {{ settings.colors_secondary }};
+          --color-background: {{ settings.colors_background }};
+          --font-heading: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+          --font-body: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+      }
+    </style>
     {{ content_for_header }}
   </head>
   <body>
