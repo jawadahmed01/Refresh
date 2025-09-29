@@ -1,0 +1,228 @@
+<div class="header-container">
+  <header class="site-header">
+    <div class="header-top">
+      <!-- Left Search -->
+      <div class="header-search">
+        <form action="/search" method="get" class="search-form">
+          <input type="search" name="q" placeholder="Search..." aria-label="Search">
+          <button type="submit">
+            {% render 'icon-search' %}
+          </button>
+        </form>
+      </div>
+
+      <!-- Center Logo -->
+      <div class="header-logo">
+        {% if section.settings.logo != blank %}
+          <a href="/">
+            <img
+              src="{{ section.settings.logo | img_url: 'medium' }}"
+              alt="{{ shop.name }}"
+              loading="lazy"
+              width="{{ section.settings.logo_width }}"
+              height="auto"
+            >
+          </a>
+        {% else %}
+          <a href="/" class="site-name">{{ shop.name }}</a>
+        {% endif %}
+      </div>
+
+      <!-- Right Cart -->
+      <div class="header-cart">
+        <a href="/cart" class="cart-icon">
+          {% render 'icon-cart' %}
+          <span class="cart-count">{{ cart.item_count }}</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="header-nav">
+      <button class="mobile-nav-toggle">
+        <span class="mobile-nav-icon"></span>
+      </button>
+      <ul class="site-nav">
+        {% for link in linklists['main-menu'].links %}
+          <li>
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </header>
+</div>
+
+<style>
+  .header-container {
+    width: 100%;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .site-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .header-search {
+    flex: 1;
+    max-width: 300px;
+  }
+
+  .search-form {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  .search-form input {
+    border: none;
+    padding: 8px;
+    width: 100%;
+  }
+
+  .header-logo {
+    flex: 1;
+    text-align: center;
+  }
+
+  .header-logo img {
+    max-width: 200px;
+  }
+
+  .header-cart {
+    flex: 1;
+    text-align: right;
+  }
+
+  .cart-icon {
+    position: relative;
+    display: inline-block;
+  }
+
+  .cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #000;
+    color: #fff;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+  }
+
+  .header-nav {
+    text-align: center;
+  }
+
+  .site-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  .mobile-nav-toggle {
+    display: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    .header-top {
+      flex-wrap: wrap;
+    }
+
+    .header-search {
+      order: 2;
+      max-width: 100%;
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    .header-logo {
+      order: 1;
+      width: 80%;
+    }
+
+    .header-cart {
+      order: 1;
+      width: 20%;
+    }
+
+    .mobile-nav-toggle {
+      display: block;
+      background: none;
+      border: none;
+      padding: 10px;
+    }
+
+    .mobile-nav-icon {
+      display: block;
+      width: 25px;
+      height: 2px;
+      background: #000;
+      position: relative;
+    }
+
+    .mobile-nav-icon::before,
+    .mobile-nav-icon::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: #000;
+      left: 0;
+    }
+
+    .mobile-nav-icon::before {
+      top: -6px;
+    }
+    .mobile-nav-icon::after {
+      bottom: -6px;
+    }
+
+    .site-nav {
+      display: none;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .site-nav.active {
+      display: flex;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 100
+    }
+  ]
+}
+{% endschema %}
