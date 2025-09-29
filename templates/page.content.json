@@ -1,0 +1,25 @@
+{
+    "sections": {
+        "main": {
+            "type": "main-page",
+            "settings": {
+                // Main page settings can be added here
+            }
+        },
+        "content": {
+            "type": "rich-text",
+            "settings": {
+                "title": "Welcome to our page",
+                "text": "<p>Add your content here</p>",
+                "text_size": "regular",
+                "text_alignment": "center",
+                "padding_top": 40,
+                "padding_bottom": 40
+            }
+        }
+    },
+    "order": [
+        "main",
+        "content"
+    ]
+}
