@@ -1,0 +1,78 @@
+{%- style -%}
+  .article-template {
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .article-template__content {
+    margin-top: 30px;
+  }
+{%- endstyle -%}
+
+<article class="article-template" itemscope itemtype="http://schema.org/BlogPosting">
+  {%- if article.image -%}
+    <div class="article-template__hero">
+      <img
+        srcset="
+          {%- if article.image.width >= 350 -%}{{ article.image | image_url: width: 350 }} 350w,{%- endif -%}
+          {%- if article.image.width >= 750 -%}{{ article.image | image_url: width: 750 }} 750w,{%- endif -%}
+          {%- if article.image.width >= 1100 -%}{{ article.image | image_url: width: 1100 }} 1100w,{%- endif -%}
+          {{ article.image | image_url }} {{ article.image.width }}w
+        "
+        src="{{ article.image | image_url: width: 750 }}"
+        sizes="(min-width: 750px) 750px, 100vw"
+        alt="{{ article.image.alt | escape }}"
+        loading="lazy"
+        width="{{ article.image.width }}"
+        height="{{ article.image.height }}"
+      >
+    </div>
+  {%- endif -%}
+
+  <header class="article-template__header">
+    <h1 class="article-template__title" itemprop="headline">{{ article.title }}</h1>
+    <span class="article-template__meta">
+      {%- if article.author -%}
+        <span itemprop="author">{{ article.author }}</span>
+      {%- endif -%}
+      <time itemprop="datePublished dateCreated" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+        {{ article.published_at | date: '%B %d, %Y' }}
+      </time>
+    </span>
+  </header>
+
+  <div class="article-template__content rte" itemprop="articleBody">
+    {{ article.content }}
+  </div>
+
+  {%- if blog.comments_enabled? -%}
+    <div class="article-template__comments">
+      {%- if article.comments_count > 0 -%}
+        <h2>
+          {{ article.comments_count }}
+          {{ 'blog.article.comments' | t }}
+        </h2>
+      {%- endif -%}
+      {% paginate article.comments by 5 %}
+        {% for comment in article.comments %}
+          <div class="article-template__comment">
+            {{ comment.content }}
+            <span>{{ comment.author }} on {{ comment.created_at | date: '%B %d, %Y' }}</span>
+          </div>
+        {% endfor %}
+        {%- if paginate.pages > 1 -%}
+          {% render 'pagination', paginate: paginate %}
+        {%- endif -%}
+      {% endpaginate %}
+    </div>
+  {%- endif -%}
+</article>
+
+{% schema %}
+{
+  "name": "t:sections.main-article.name",
+  "tag": "section",
+  "class": "section"
+}
+{% endschema %}

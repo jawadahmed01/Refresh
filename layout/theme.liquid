@@ -11,13 +11,11 @@
       {% if current_page != 1 %} - Page {{ current_page }}{% endif %}
       {% unless page_title contains shop.name %} - {{ shop.name }}{% endunless %}
     </title>
-
     {% if page_description %}
       <meta name="description" content="{{ page_description | escape }}">
     {% endif %}
+    <meta name="theme-color" content="{{ settings.colors_primary }}">
 
-    {{ 'base.css' | asset_url | stylesheet_tag }}
-    {{ 'theme.js' | asset_url | script_tag }}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -37,12 +35,12 @@
     {{ content_for_header }}
   </head>
   <body>
-    {% section 'header' %}
+    {% sections 'header-group' %}
 
     <main role="main" id="MainContent">
       {{ content_for_layout }}
     </main>
 
-    {% section 'footer' %}
+    {% sections 'footer-group' %}
   </body>
 </html>

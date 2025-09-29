@@ -1,0 +1,69 @@
+{% schema %}
+{
+  "name": "Announcement bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "Welcome to our store!"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Padding",
+      "min": 5,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement bar",
+      "category": "Promotional"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .announcement-bar {
+      background-color: {{ section.settings.background_color }};
+      padding: {{ section.settings.padding }}px 0;
+      text-align: center;
+  }
+
+  .announcement-text {
+      color: {{ section.settings.text_color }};
+      margin: 0;
+      font-size: 14px;
+  }
+</style>
+
+{% if section.settings.show_announcement %}
+  <div class="announcement-bar">
+    <p class="announcement-text">
+      {{ section.settings.announcement_text }}
+    </p>
+  </div>
+{% endif %}
