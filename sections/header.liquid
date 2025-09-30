@@ -1,13 +1,13 @@
 <style>
   header {
     background: var(--color-primary);
-    color: var(--color-secondary);
-    padding: 20px 0;
-    position: fixed;
+    color: var(--color-white);
+    padding: 15px 0;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
+    position: sticky;
   }
   .header-hidden {
     transform: translateY(-100%);
@@ -17,8 +17,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 15px;
+    gap: 10px;
   }
   .header-top-bar {
     display: flex;
@@ -31,68 +30,67 @@
   .header-logo {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
   }
   .header-logo-item {
     max-height: 50px;
     width: auto;
+  }
+  .header-logo-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--color-white);
+    text-decoration: none;
   }
   .header-cart {
     position: relative;
     display: flex;
     align-items: center;
   }
-
   .header-cart .cart-count {
     margin-left: 6px;
     font-size: 14px;
     font-weight: bold;
-    background: #000;
+    background: var(--color-secondary);
     color: #fff;
     padding: 2px 6px;
     border-radius: 50%;
   }
-
   .cart-drawer {
     position: absolute;
     right: 0;
     top: 40px;
-    background: #fff;
-    border: 1px solid #ddd;
+    background: var(--color-white);
     padding: 16px;
     width: 260px;
     z-index: 9999;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    display: none;
   }
   .cart-drawer.open {
     display: block;
   }
-  .header-search-bar form {
-    display: flex;
-    align-items: center;
+  .header-search-bar {
+    position: relative;
   }
   .header-search-bar input[type='search'] {
-    padding: 5px;
+    padding: 6px;
     border-radius: 4px;
     border: 1px solid #ccc;
   }
   .header-search-bar button {
-    padding: 5px 10px;
+    padding: 6px 10px;
     border: none;
     background: var(--color-secondary);
-    color: var(--color-white);
+    color: #fff;
     border-radius: 4px;
     cursor: pointer;
   }
   .header-search-bar button:hover {
     background: var(--color-text);
   }
-  .header-logo-text {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--color-secondary);
-    text-decoration: none;
-  }
+
+  /* Navigation */
   .header-nav {
     width: 100%;
     background: var(--color-white);
@@ -113,28 +111,56 @@
   .header-nav-item a:hover {
     color: var(--color-secondary);
   }
+
+  /* Mobile menu */
+  .menu-toggle {
+    display: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background: var(--color-white);
+    border-radius: 2px;
+  }
+  @media (max-width: 768px) {
+    .header-nav {
+      display: none;
+      flex-direction: column;
+      background: var(--color-primary);
+    }
+    .header-nav.open {
+      display: flex;
+    }
+    .header-nav-list {
+      flex-direction: column;
+      gap: 15px;
+      padding: 20px;
+    }
+    .header-nav-item a {
+      color: #fff;
+      font-size: 1.1rem;
+    }
+    .menu-toggle {
+      display: flex;
+    }
+  }
 </style>
+
 <header>
   <div class="container">
     <div class="header-content-wrap">
       <div class="header-top-bar">
-        <div class="header-search-bar">
-          <form action="/search" method="get" role="search">
-            <input
-              type="search"
-              name="q"
-              placeholder="Search..."
-              aria-label="Search"
-              style="padding: 5px; border-radius: 4px; border: 1px solid #ccc;"
-            >
-            <button
-              type="submit"
-              style="padding: 5px 10px; border: none; background: var(--color-secondary); color: var(--color-white); border-radius: 4px; cursor: pointer;"
-            >
-              Search
-            </button>
-          </form>
+        <!-- Mobile menu toggle -->
+        <div class="menu-toggle" id="menu-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
+
+        <!-- Logo -->
         <div class="header-logo">
           {%- if section.settings.logo != blank -%}
             <a href="{{ shop.url }}">
@@ -149,36 +175,27 @@
             <a href="{{ shop.url }}" class="header-logo-text">{{ shop.name }}</a>
           {%- endif -%}
         </div>
-        <div class="header-cart">
-          <!-- Cart icon -->
-          <a href="{{ routes.cart_url }}" class="header-cart-link" aria-label="Cart">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon icon-tabler icon-tabler-shopping-cart"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+
+        <!-- Search -->
+        <div class="header-search-bar">
+          <form action="/search" method="get" role="search">
+            <input
+              type="search"
+              name="q"
+              placeholder="Search..."
+              aria-label="Search"
             >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-              <circle cx="6" cy="19" r="2" />
-              <circle cx="17" cy="19" r="2" />
-              <path d="M17 17h-11v-14h-2" />
-              <path d="M6 5l14 1l-1 7h-13" />
-            </svg>
+            <button type="submit">Search</button>
+          </form>
+        </div>
 
-            <!-- Live cart count -->
-            <span class="cart-count">
-              {{ cart.item_count }}
-            </span>
+        <!-- Cart -->
+        <div class="header-cart">
+          <a href="{{ routes.cart_url }}" class="header-cart-link" aria-label="Cart">
+            🛒
+            <span class="cart-count">{{ cart.item_count }}</span>
           </a>
-
-          <!-- Hidden cart drawer -->
-          <div class="cart-drawer" style="display:none;">
+          <div class="cart-drawer">
             {% if cart.item_count > 0 %}
               <ul>
                 {% for item in cart.items %}
@@ -189,18 +206,18 @@
               <a href="{{ routes.cart_url }}" class="btn">View cart</a>
               <a href="{{ routes.checkout_url }}" class="btn">Checkout</a>
             {% else %}
-              <p>Your cart is currently empty.</p>
+              <p>Your cart is empty.</p>
             {% endif %}
           </div>
         </div>
       </div>
-      <nav class="header-nav">
+
+      <!-- Navigation -->
+      <nav class="header-nav" id="header-nav">
         <ul class="header-nav-list">
           {%- for link in linklists[section.settings.menu].links -%}
             <li class="header-nav-item">
-              <a href="{{ link.url }}" class="header-nav-link">
-                {{ link.title }}
-              </a>
+              <a href="{{ link.url }}" class="header-nav-link">{{ link.title }}</a>
             </li>
           {%- endfor -%}
         </ul>
@@ -210,55 +227,34 @@
 </header>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const cartIcon = document.querySelector('.header-cart');
-    const cartDrawer = document.querySelector('.cart-drawer');
-
-    if (cartIcon && cartDrawer) {
-      cartIcon.addEventListener('click', function () {
-        cartDrawer.classList.toggle('open');
-      });
-    }
-  });
-  document.addEventListener('DOMContentLoaded', function () {
-    const searchIcon = document.querySelector('.header-search-icon');
-    const searchBar = document.querySelector('.header-search-bar form');
-
-    if (searchIcon && searchBar) {
-      searchIcon.addEventListener('click', function () {
-        searchBar.classList.toggle('visible');
-        if (searchBar.classList.contains('visible')) {
-          searchBar.querySelector('input').focus();
-        }
-      });
-    }
-  });
-  document.addEventListener('DOMContentLoaded', function () {
-    const header = document.querySelector('header');
-    let lastScrollTop = 0;
-
-    window.addEventListener('scroll', function () {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      if (scrollTop > lastScrollTop && scrollTop > 100) {
-        header.classList.add('header-hidden');
-      } else {
-        header.classList.remove('header-hidden');
-      }
-      lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-    });
-  });
   document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('menu-toggle');
+    const nav = document.getElementById('header-nav');
     const cartIcon = document.querySelector('.header-cart-link');
     const cartDrawer = document.querySelector('.cart-drawer');
 
+    // Toggle menu
+    menuToggle.addEventListener('click', () => {
+      nav.classList.toggle('open');
+    });
+
+    // Toggle cart drawer
     if (cartIcon && cartDrawer) {
-      cartIcon.addEventListener('click', function (e) {
+      cartIcon.addEventListener('click', (e) => {
         e.preventDefault();
-        cartDrawer.style.display = cartDrawer.style.display === 'none' ? 'block' : 'none';
+        cartDrawer.classList.toggle('open');
       });
     }
+
+    // Hide cart drawer when clicking outside
+    document.addEventListener('click', (event) => {
+      if (cartDrawer && cartIcon && !cartDrawer.contains(event.target) && !cartIcon.contains(event.target)) {
+        cartDrawer.classList.remove('open');
+      }
+    });
   });
 </script>
+
 {% schema %}
 {
   "name": "Header",
