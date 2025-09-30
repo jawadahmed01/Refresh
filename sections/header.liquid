@@ -41,6 +41,58 @@
     position: relative;
     cursor: pointer;
   }
+  .cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--color-secondary);
+    color: var(--color-primary);
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 0.75rem;
+    font-weight: bold;
+  }
+  .cart-drawer {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    width: 300px;
+    background: var(--color-white);
+    color: var(--color-text);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: none;
+    z-index: 1001;
+  }
+  .cart-drawer.open {
+    display: block;
+  }
+  .header-search-bar {
+    display: flex;
+    align-items: center;
+  }
+  .header-search-bar form {
+    display: flex;
+    align-items: center;
+  }
+  .header-search-bar input[type='search'] {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  .header-search-bar button {
+    padding: 5px 10px;
+    border: none;
+    background: var(--color-secondary);
+    color: var(--color-white);
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .header-search-bar button:hover {
+    background: var(--color-text);
+  }
   .header-logo-text {
     font-size: 1.5rem;
     font-weight: bold;
@@ -58,13 +110,36 @@
     list-style: none;
     padding: 10px 20px;
   }
+  .header-nav-item a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  .header-nav-item a:hover {
+    color: var(--color-secondary);
+  }
 </style>
 <header>
   <div class="container">
     <div class="header-content-wrap">
       <div class="header-top-bar">
         <div class="header-search-bar">
-          {%- render 'search-bar' -%}
+          <form action="/search" method="get" role="search">
+            <input
+              type="search"
+              name="q"
+              placeholder="Search..."
+              aria-label="Search"
+              style="padding: 5px; border-radius: 4px; border: 1px solid #ccc;"
+            >
+            <button
+              type="submit"
+              style="padding: 5px 10px; border: none; background: var(--color-secondary); color: var(--color-white); border-radius: 4px; cursor: pointer;"
+            >
+              Search
+            </button>
+          </form>
         </div>
         <div class="header-logo">
           {%- if section.settings.logo != blank -%}
@@ -81,7 +156,28 @@
           {%- endif -%}
 
           <div class="header-cart">
-            {%- render 'cart-icon' -%}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon icon-tabler icon-tabler-shopping-cart"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <circle cx="6" cy="19" r="2" />
+              <circle cx="17" cy="19" r="2" />
+              <path d="M17 17h-11v-14h-2" />
+              <path d="M6 5l14 1l-1 7h-13" />
+            </svg>
+            <span class="cart-count">0</span>
+            <div class="cart-drawer" style="display: none;">
+              <!-- Cart drawer content goes here -->
+            </div>
           </div>
         </div>
       </div>
