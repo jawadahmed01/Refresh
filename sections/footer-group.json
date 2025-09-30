@@ -10,16 +10,6 @@
         "enable_country_selector": true,
         "enable_language_selector": true
       },
-      "blocks": {
-        "menu-1": {
-          "type": "link_list",
-          "settings": {
-            "heading": "Quick links",
-            "menu": "footer"
-          }
-        }
-      },
-      "block_order": ["menu-1"]
     }
   },
   "order": ["footer"]
