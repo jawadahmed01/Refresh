@@ -1,46 +1,52 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>
-      {{ page_title | escape }}
-      {% if current_tags %} - tagged "{{ current_tags | join: ', ' }}"{% endif %}
-      {% if current_page != 1 %} - Page {{ current_page }}{% endif %}
-      {% unless page_title contains shop.name %} - {{ shop.name }}{% endunless %}
+      {{ page_title }}
+      -
+      {{ shop.name }}
     </title>
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
-    {% endif %}
-    <meta name="theme-color" content="{{ settings.colors_primary }}">
+    {{ content_for_header }}
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-      href="https://fonts.googleapis.com/css2?family={{ settings.type_header_font.family | handle }}:wght@400;500;600;700&family={{ settings.type_body_font.family | handle }}:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    >
-
+    <!-- Fonts -->
     <style>
+      /* Dynamic Fonts */
+      body {
+        font-family: {{ settings.body_font.family }}, sans-serif;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-family: {{ settings.heading_font.family }}, sans-serif;
+      }
+
+      /* Dynamic Colors */
       :root {
-          --color-primary: {{ settings.colors_primary }};
-          --color-secondary: {{ settings.colors_secondary }};
-          --color-background: {{ settings.colors_background }};
-          --font-heading: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
-          --font-body: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+        --color-primary: {{ settings.primary_color }};
+        --color-secondary: {{ settings.secondary_color }};
+        --color-background: {{ settings.background_color }};
+        --color-text: {{ settings.text_color }};
       }
     </style>
-    {{ content_for_header }}
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ 'base.css' | asset_url }}">
   </head>
   <body>
-    {% sections 'header-group' %}
+    <header>
+      {% sections 'header-group' %}
+    </header>
 
-    <main role="main" id="MainContent">
+    <main role="main">
       {{ content_for_layout }}
     </main>
 
-    {% sections 'footer-group' %}
+    <footer>
+      {% sections 'footer-group' %}
+    </footer>
+
+    <!-- JavaScript at Bottom -->
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+    {{ content_for_footer }}
   </body>
 </html>
