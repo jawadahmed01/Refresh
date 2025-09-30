@@ -58,7 +58,7 @@ textarea {
   font-size: clamp(18px, 1.2vw, 16px);
   line-height: 1.6;
 }
-button {
+.button {
   cursor: pointer;
   background-color: var(--color-primary);
   color: var(--color-secondary);
@@ -67,7 +67,7 @@ button {
   border-radius: 30px;
   transition: background-color 0.3s ease;
 }
-button:hover {
+.button:hover {
   background-color: var(--color-secondary);
   color: var(--color-primary);
 }
