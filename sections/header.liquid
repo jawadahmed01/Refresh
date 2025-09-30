@@ -39,39 +39,33 @@
   }
   .header-cart {
     position: relative;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
   }
-  .cart-count {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    background: var(--color-secondary);
-    color: var(--color-primary);
-    border-radius: 50%;
-    padding: 2px 6px;
-    font-size: 0.75rem;
+
+  .header-cart .cart-count {
+    margin-left: 6px;
+    font-size: 14px;
     font-weight: bold;
+    background: #000;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 50%;
   }
+
   .cart-drawer {
     position: absolute;
-    top: 40px;
     right: 0;
-    width: 300px;
-    background: var(--color-white);
-    color: var(--color-text);
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    display: none;
-    z-index: 1001;
+    top: 40px;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 16px;
+    width: 260px;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   }
   .cart-drawer.open {
     display: block;
-  }
-  .header-search-bar {
-    display: flex;
-    align-items: center;
   }
   .header-search-bar form {
     display: flex;
@@ -154,8 +148,10 @@
           {%- else -%}
             <a href="{{ shop.url }}" class="header-logo-text">{{ shop.name }}</a>
           {%- endif -%}
-
-          <div class="header-cart">
+        </div>
+        <div class="header-cart">
+          <!-- Cart icon -->
+          <a href="{{ routes.cart_url }}" class="header-cart-link" aria-label="Cart">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="icon icon-tabler icon-tabler-shopping-cart"
@@ -174,10 +170,27 @@
               <path d="M17 17h-11v-14h-2" />
               <path d="M6 5l14 1l-1 7h-13" />
             </svg>
-            <span class="cart-count">0</span>
-            <div class="cart-drawer" style="display: none;">
-              <!-- Cart drawer content goes here -->
-            </div>
+
+            <!-- Live cart count -->
+            <span class="cart-count">
+              {{ cart.item_count }}
+            </span>
+          </a>
+
+          <!-- Hidden cart drawer -->
+          <div class="cart-drawer" style="display:none;">
+            {% if cart.item_count > 0 %}
+              <ul>
+                {% for item in cart.items %}
+                  <li>{{ item.quantity }} × {{ item.product.title }}</li>
+                {% endfor %}
+              </ul>
+              <p><strong>Total:</strong> {{ cart.total_price | money }}</p>
+              <a href="{{ routes.cart_url }}" class="btn">View cart</a>
+              <a href="{{ routes.checkout_url }}" class="btn">Checkout</a>
+            {% else %}
+              <p>Your cart is currently empty.</p>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -233,6 +246,17 @@
       }
       lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     });
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+    const cartIcon = document.querySelector('.header-cart-link');
+    const cartDrawer = document.querySelector('.cart-drawer');
+
+    if (cartIcon && cartDrawer) {
+      cartIcon.addEventListener('click', function (e) {
+        e.preventDefault();
+        cartDrawer.style.display = cartDrawer.style.display === 'none' ? 'block' : 'none';
+      });
+    }
   });
 </script>
 {% schema %}
