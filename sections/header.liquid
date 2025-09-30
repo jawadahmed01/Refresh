@@ -55,6 +55,7 @@
   .header-nav {
     display: none;
     flex-direction: column;
+    width: 100%;
   }
   .header-nav.active {
     display: flex;
@@ -66,6 +67,9 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
   }
   .header-nav-item a {
     color: var(--color-secondary);
@@ -82,7 +86,28 @@
     cursor: pointer;
   }
   .header-search-form {
-    display: none;
+    position: absolute;
+    inset: 0px;
+    width: 100%;
+    background: var(--color-primary);
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    z-index: 1001;
+    transform: translateY(-120%);
+    transition: transform 0.3s ease;
+  }
+  .header-search-form.active {
+    transform: translateY(0%);
+  }
+  .header-search-close {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    color: var(--color-secondary);
+    cursor: pointer;
+    font-size: 1.2rem;
   }
   .header-search-form form {
     display: flex;
@@ -174,6 +199,7 @@
               <input type="search" name="q" placeholder="Search..." aria-label="Search">
               <button type="submit">Search</button>
             </form>
+            <div class="header-search-close">X</div>
           </div>
         </div>
         <div class="header-logo">
@@ -235,12 +261,10 @@
     this.classList.toggle('active');
   });
   document.querySelector('.header-search-icon').addEventListener('click', function () {
-    const searchForm = document.querySelector('.header-search-form');
-    if (searchForm.style.display === 'block') {
-      searchForm.style.display = 'none';
-    } else {
-      searchForm.style.display = 'block';
-    }
+    document.querySelector('.header-search-form').classList.add('active');
+  });
+  document.querySelector('.header-search-close').addEventListener('click', function () {
+    document.querySelector('.header-search-form').classList.remove('active');
   });
   window.addEventListener('scroll', function () {
     const header = document.querySelector('header');
