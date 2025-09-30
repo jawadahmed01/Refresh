@@ -14,6 +14,18 @@
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
     {% endif %}
     <!-- Fonts -->
+    {% if settings.heading_font != blank %}
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family={{ settings.heading_font.family | replace: ' ', '+' }}:wght@400;700&display=swap"
+      >
+    {% endif %}
+    {% if settings.body_font != blank and settings.body_font != settings.heading_font %}
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family={{ settings.body_font.family | replace: ' ', '+' }}:wght@400;700&display=swap"
+      >
+    {% endif %}
 
     <style>
         /* Dynamic Fonts */
