@@ -1,0 +1,59 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<div class="product-section container" data-section-id="{{ section.id }}">
+  <div class="product-grid">
+    <div class="product-gallery">
+      {%- for media in product.media -%}
+        <div class="product-image">
+          {{ media | image_url: width: 800 | image_tag: loading: 'lazy', alt: media.alt }}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="product-info">
+      <h1>{{ product.title }}</h1>
+
+      <div class="product-price">
+        <span class="price">{{ current_variant.price | money }}</span>
+      </div>
+
+      {%- form 'product', product -%}
+        <select name="id">
+          {%- for variant in product.variants -%}
+            <option
+              value="{{ variant.id }}"
+              {% if variant == current_variant %}
+                selected="selected"
+              {% endif %}
+            >
+              {{ variant.title }}
+            </option>
+          {%- endfor -%}
+        </select>
+
+        <div class="quantity">
+          <input type="number" name="quantity" value="1" min="1">
+        </div>
+
+        <button type="submit" name="add" class="button">
+          {%- if current_variant.available -%}
+            Add to Cart
+          {%- else -%}
+            Sold Out
+          {%- endif -%}
+        </button>
+      {%- endform -%}
+
+      <div class="product-description">
+        {{ product.description }}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": []
+}
+{% endschema %}

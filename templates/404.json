@@ -1,12 +1,9 @@
 {
     "sections": {
         "main": {
-            "type": "404",
+            "type": "hero",
             "settings": {
-                "title": "Page not found",
-                "subtext": "The page you're looking for doesn't exist.",
-                "button_label": "Return to home",
-                "button_link": "/"
+
             }
         }
     },

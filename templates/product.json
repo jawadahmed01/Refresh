@@ -1,34 +1,10 @@
 {
-    "product": {
-        "title": "Sample Product",
-        "body_html": "This is a sample product description with <strong>HTML</strong> formatting.",
-        "vendor": "Sample Brand",
-        "product_type": "Accessories",
-        "tags": ["tag1", "tag2", "new"],
-        "variants": [
-            {
-                "sku": "SKU-001",
-                "price": "29.99",
-                "compare_at_price": "39.99",
-                "inventory_quantity": 100,
-                "weight": 200,
-                "weight_unit": "g",
-                "option1": "Blue"
-            }
-        ],
-        "options": [
-            {
-                "name": "Color",
-                "values": ["Blue", "Red", "Green"]
-            }
-        ],
-        "images": [
-            {
-                "src": "https://example.com/product-image.jpg",
-                "position": 1,
-                "alt": "Product Image"
-            }
-        ],
-        "status": "active"
+  "sections": {
+    "main": {
+      "type": "hero",
+        "settings": {
+        }
     }
+  },
+  "order": ["main"]
 }

@@ -1,10 +1,12 @@
 {
     "sections": {
-        
+        "main": {
+            "type": "hero",
+            "settings": {
+            }
+        }
     },
     "order": [
-        "hero",
-        "featured-collection",
-        "image-with-text"
+        "main",
     ]
 }
