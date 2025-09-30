@@ -9,22 +9,34 @@
       {{ shop.name }}
     </title>
     {{ content_for_header }}
-
+    <!-- Favicon -->
+    {% if settings.favicon != blank %}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {% endif %}
     <!-- Fonts -->
+    <!-- Load Heading Font -->
+    {% if settings.heading_font %}
+      {{ settings.heading_font | font_face }}
+    {% endif %}
+
+    <!-- Load Body Font -->
+    {% if settings.body_font %}
+      {{ settings.body_font | font_face }}
+    {% endif %}
+
     <style>
-      /* Dynamic Fonts */
+        /* Dynamic Fonts */
 
+        /* Dynamic Colors */
+        :root {
+          --color-primary: {{ settings.primary_color }};
+          --color-secondary: {{ settings.secondary_color }};
+          --color-background: {{ settings.background_color }};
+          --color-text: {{ settings.text_color }};
 
-      /* Dynamic Colors */
-      :root {
-        --color-primary: {{ settings.primary_color }};
-        --color-secondary: {{ settings.secondary_color }};
-        --color-background: {{ settings.background_color }};
-        --color-text: {{ settings.text_color }};
-
-      --font-heading: {{ settings.heading_font.family }}, sans-serif;
+        --font-heading: {{ settings.heading_font.family }}, sans-serif;
       --font-body: {{ settings.body_font.family }}, sans-serif;
-      }
+        }
     </style>
 
     <!-- Main CSS -->
