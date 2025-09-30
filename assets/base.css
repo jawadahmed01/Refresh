@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 body {
-  font-family: var(--font-body);
+  font-family: var(--font-body) !important;
   background-color: var(--color-background);
   color: var(--color-text);
 }
@@ -15,7 +15,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-heading);
+  font-family: var(--font-heading) !important;
 }
 /* Links */
 a {
