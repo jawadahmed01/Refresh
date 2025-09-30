@@ -13,12 +13,7 @@
     <!-- Fonts -->
     <style>
       /* Dynamic Fonts */
-      body {
-        font-family: {{ settings.body_font.family }}, sans-serif;
-      }
-      h1, h2, h3, h4, h5, h6 {
-        font-family: {{ settings.heading_font.family }}, sans-serif;
-      }
+
 
       /* Dynamic Colors */
       :root {
@@ -26,10 +21,9 @@
         --color-secondary: {{ settings.secondary_color }};
         --color-background: {{ settings.background_color }};
         --color-text: {{ settings.text_color }};
-      }
-      body {
-        background-color: var(--color-background);
-        color: var(--color-text);
+
+      --font-heading: {{ settings.heading_font.family }}, sans-serif;
+      --font-body: {{ settings.body_font.family }}, sans-serif;
       }
     </style>
 
