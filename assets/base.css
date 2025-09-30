@@ -16,9 +16,18 @@ h4,
 h5,
 h6 {
   font-family: var(--font-heading) !important;
+  line-height: 1.2;
 }
 /* Links */
 a {
   color: var(--color-primary);
   text-decoration: none;
+}
+.container {
+  max-width: 1280px;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
 }
