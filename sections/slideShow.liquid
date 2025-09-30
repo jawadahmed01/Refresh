@@ -1,0 +1,175 @@
+<section class="slideshow">
+  <div class="slideshow-container">
+    {% for block in section.blocks %}
+      <div class="slide" style="background-image: url('{{ block.settings.image | image_url: width: 1200 }}');">
+        <div class="slide-content">
+          {% if block.settings.title != blank %}
+            <h2 class="slide-title">{{ block.settings.title }}</h2>
+          {% endif %}
+          {% if block.settings.text != blank %}
+            <p class="slide-text">{{ block.settings.text }}</p>
+          {% endif %}
+          {% if block.settings.button_text != blank and block.settings.button_link != blank %}
+            <a href="{{ block.settings.button_link }}" class="slide-button">{{ block.settings.button_text }}</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="slideshow-dots">
+    {% for block in section.blocks %}
+      <span class="dot" data-slide="{{ forloop.index0 }}"></span>
+    {% endfor %}
+  </div>
+
+  <style>
+    .slideshow {
+      position: relative;
+      overflow: hidden;
+      background-color: var(--color-background);
+    }
+
+    .slideshow-container {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .slide {
+      min-width: 100%;
+      height: 400px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide-content {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      color: var(--color-text);
+    }
+
+    .slide-title {
+      font-size: 2em;
+      margin-bottom: 10px;
+      color: var(--color-heading);
+    }
+
+    .slide-text {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+
+    .slide-button {
+      background-color: var(--color-primary);
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    .slideshow-dots {
+      text-align: center;
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .dot {
+      height: 15px;
+      width: 15px;
+      margin: 0 5px;
+      background-color: var(--color-secondary);
+      border-radius: 50%;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .dot.active {
+      background-color: var(--color-primary);
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const slides = document.querySelectorAll('.slide');
+      const dots = document.querySelectorAll('.dot');
+      let currentIndex = 0;
+
+      function showSlide(index) {
+        const container = document.querySelector('.slideshow-container');
+        container.style.transform = `translateX(-${index * 100}%)`;
+        dots.forEach((dot) => dot.classList.remove('active'));
+        dots[index].classList.add('active');
+      }
+
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          currentIndex = index;
+          showSlide(currentIndex);
+        });
+      });
+
+      // Auto slide
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % slides.length;
+        showSlide(currentIndex);
+      }, 5000); // Change slide every 5 seconds
+
+      // Initialize
+      showSlide(currentIndex);
+    });
+  </script>
+</section>
+{% schema %}
+{
+  "name": "Slideshow",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Slide Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Slide Title",
+          "default": "Welcome to Our Store"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Slide Text",
+          "default": "Discover our latest products and offers."
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link",
+          "default": "/collections/all"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Slideshow",
+      "category": "Media"
+    }
+  ]
+}
+{% endschema %}

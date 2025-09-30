@@ -17,6 +17,7 @@ h5,
 h6 {
   font-family: var(--font-heading) !important;
   line-height: 1.2;
+  font-weight: 700;
   color: var(--color-heading);
 }
 /* Links */
@@ -30,5 +31,64 @@ a {
   margin: 0 auto;
 }
 h1 {
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-size: clamp(62px, 2.5vw, 42px);
+}
+h2 {
+  font-size: clamp(48px, 2.2vw, 32px);
+}
+h3 {
+  font-size: clamp(32px, 1.8vw, 24px);
+}
+h4 {
+  font-size: clamp(24px, 1.5vw, 20px);
+}
+h5 {
+  font-size: clamp(20px, 1.2vw, 18px);
+}
+h6 {
+  font-size: clamp(18px, 1vw, 16px);
+}
+p {
+  font-size: clamp(18px, 1.2vw, 16px);
+  line-height: 1.6;
+}
+button,
+input,
+textarea {
+  font-size: clamp(18px, 1.2vw, 16px);
+  line-height: 1.6;
+}
+button {
+  cursor: pointer;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  transition: background-color 0.3s ease;
+}
+button:hover {
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+}
+input,
+textarea {
+  border: 1px solid var(--color-text);
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 400px;
+}
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+::placeholder {
+  color: var(--color-text);
+  opacity: 0.7;
+}
+::-webkit-input-placeholder {
+  color: var(--color-text);
+  opacity: 0.7;
 }
