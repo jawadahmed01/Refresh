@@ -9,6 +9,41 @@
   href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4/dist/css/splide.min.css"
 >
 
+<style>
+    .slideshow-slide {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .slideshow-slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .slideshow-text-wrap{
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 30px;
+      background: var(--color-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+        gap: 1rem;
+
+    }
+  }
+</style>
+
 <section class="slideshow">
   <div class="slideshow-content-wrap">
     <!-- Splide root -->
@@ -16,16 +51,19 @@
       <div class="splide__track">
         <ul class="splide__list">
           {% for block in section.blocks %}
-            <li class="splide__slide">
-              {% if block.settings.image != blank %}
-                <img
-                  src="{{ block.settings.image | image_url: width: 1600 }}"
-                  alt="{{ block.settings.alt | escape }}"
-                  loading="lazy"
-                >
-              {% else %}
-                {{ block.settings.text }}
-              {% endif %}
+            <li class="splide__slide slideshow-slide">
+              <img
+                src="{{ block.settings.image | img_url: 'master' }}"
+                alt="{{ block.settings.alt | escape }}"
+                loading="lazy"
+              >
+              <div class="slideshow-text-wrap">
+                <h1>{{ block.settings.heading | escape }}</h1>
+                <p>{{ block.settings.description | escape }}</p>
+                <a href="{{ block.settings.link | escape }}" class="button">
+                  {{- block.settings.button_text | escape -}}
+                </a>
+              </div>
             </li>
           {% endfor %}
         </ul>
@@ -96,8 +134,26 @@
         },
         {
           "type": "text",
-          "id": "text",
-          "label": "Fallback Text (if no image)"
+          "id": "heading",
+          "label": "Heading",
+          "default": "Your Slide Heading Here"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Your slide description goes here."
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Learn More"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button Link"
         }
       ]
     }
