@@ -36,11 +36,11 @@
         "slide_mDieFe": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/1_0525_1.png",
-            "alt": "",
-            "heading": "Heading Here",
-            "description": "Your slide description goes here.",
-            "button_text": "Shop Now",
+            "image": "shopify://shop_images/01.jpg",
+            "alt": "Keep things simple.",
+            "heading": "Keep things simple.",
+            "description": "Build an easy-care hair routine you'll actually want to follow.",
+            "button_text": "Shop Hair",
             "link": ""
           }
         }
