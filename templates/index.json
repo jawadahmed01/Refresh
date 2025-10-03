@@ -1,12 +1,60 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-    "sections": {
-        "main": {
-            "type": "hero",
-            "settings": {
-            }
-        }
+  "sections": {
+    "main": {
+      "type": "hero",
+      "settings": {
+        "heading": "Welcome to our store",
+        "subheading": "",
+        "button_label": "",
+        "button_link": "",
+        "full_width": false
+      }
     },
-    "order": [
-        "main",
-    ]
+    "slide_show_PKaUtp": {
+      "type": "slideShow",
+      "blocks": {
+        "slide_KWUQeW": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/02.jpg",
+            "alt": "Your hair, but better.",
+            "heading": "Your hair, but better.",
+            "description": "Lather up with our newest shampoo for clean, strong, and healthy hair.",
+            "button_text": "Shop Shampoo",
+            "link": ""
+          }
+        },
+        "slide_mDieFe": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/1_0525_1.png",
+            "alt": "",
+            "heading": "Heading Here",
+            "description": "Your slide description goes here.",
+            "button_text": "Shop Now",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_KWUQeW",
+        "slide_mDieFe"
+      ],
+      "name": "Slideshow",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "slide_show_PKaUtp"
+  ]
 }
