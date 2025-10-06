@@ -1,26 +1,31 @@
 <section class="blog-grid">
   <div class="container">
     <div class="blog-grid-main">
-      <div class="blog-grid-main">
-        {% for article in blogs.news.articles limit: section.settings.grid_item_count %}
-          <a href="{{ article.url }}" class="blog-grid-item">
-            {% if article.image %}
+      {% assign blog_handle = section.settings.blog | default: 'news' %}
+      {% for article in blogs[blog_handle].articles limit: section.settings.grid_item_count %}
+        <div class="blog-grid-item">
+          {% if article.image %}
+            <a href="{{ article.url }}">
               <img
                 src="{{ article.image | img_url: 'large' }}"
                 alt="{{ article.title | escape }}"
               >
-            {% endif %}
-            <h4>
-              <a href="{{ article.url }}">{{ article.title }}</a>
-            </h4>
-            <p>{{ article.excerpt | strip_html | truncate: 100 }}</p>
-          </a>
-        {% endfor %}
-      </div>
-      <a href="{{ blogs.news.url }}" class="button">View all</a>
+            </a>
+          {% endif %}
+          <h4>{{ article.title }}</h4>
+          <p>{{ article.excerpt | strip_html | truncate: 100 }}</p>
+          <a href="{{ article.url }}" class="read-more">Read more →</a>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% assign blog_handle = section.settings.blog | default: 'news' %}
+    <div class="blog-grid-footer">
+      <a href="{{ blogs[blog_handle].url }}" class="button">View all</a>
     </div>
   </div>
 </section>
+
 <style>
   .blog-grid {
     padding: 80px 0;
@@ -39,39 +44,76 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-  .blog-grid-item:hover img {
-    transform: scale(1.05);
+  .blog-grid-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   }
   .blog-grid-item img {
     max-width: 100%;
     border-radius: 8px;
     object-fit: cover;
     height: 250px;
+    transition: transform 0.3s ease;
+  }
+  .blog-grid-item:hover img {
+    transform: scale(1.05);
   }
   .blog-grid-item h4 {
     margin: 0;
     font-size: 18px;
+    color: var(--color-text);
   }
   .blog-grid-item p {
     font-size: 14px;
     color: var(--color-text);
     flex-grow: 1;
   }
+  .read-more {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .read-more:hover {
+    text-decoration: underline;
+  }
+  .blog-grid-footer {
+    text-align: center;
+    margin-top: 40px;
+  }
+  .button {
+    background-color: var(--color-primary);
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  .button:hover {
+    background-color: var(--color-primary-hover, #333);
+  }
   @media (max-width: 768px) {
     .blog-grid {
       padding: 40px 0;
     }
     .blog-grid-main {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(1, 1fr);
     }
   }
 </style>
+
 {% schema %}
 {
   "name": "Blog Grid",
   "settings": [
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Select Blog",
+      "default": "news"
+    },
     {
       "type": "number",
       "id": "grid_item_count",
