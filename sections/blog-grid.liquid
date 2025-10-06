@@ -1,0 +1,91 @@
+<section class="blog-grid">
+  <div class="container">
+    <div class="blog-grid-main">
+      <div class="blog-grid-main">
+        {% for article in blogs.news.articles limit: section.settings.grid_item_count %}
+          <a href="{{ article.url }}" class="blog-grid-item">
+            {% if article.image %}
+              <img
+                src="{{ article.image | img_url: 'large' }}"
+                alt="{{ article.title | escape }}"
+              >
+            {% endif %}
+            <h4>
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h4>
+            <p>{{ article.excerpt | strip_html | truncate: 100 }}</p>
+          </a>
+        {% endfor %}
+      </div>
+      <a href="{{ blogs.news.url }}" class="button">View all</a>
+    </div>
+  </div>
+</section>
+<style>
+  .blog-grid {
+    padding: 80px 0;
+    background-color: var(--color-background);
+  }
+  .blog-grid-main {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .blog-grid-item {
+    border: 1px solid var(--color-primary);
+    border-radius: 8px;
+    padding: 15px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform 0.3s ease;
+  }
+  .blog-grid-item:hover img {
+    transform: scale(1.05);
+  }
+  .blog-grid-item img {
+    max-width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+    height: 250px;
+  }
+  .blog-grid-item h4 {
+    margin: 0;
+    font-size: 18px;
+  }
+  .blog-grid-item p {
+    font-size: 14px;
+    color: var(--color-text);
+    flex-grow: 1;
+  }
+  @media (max-width: 768px) {
+    .blog-grid {
+      padding: 40px 0;
+    }
+    .blog-grid-main {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+{% schema %}
+{
+  "name": "Blog Grid",
+  "settings": [
+    {
+      "type": "number",
+      "id": "grid_item_count",
+      "label": "Number of Articles",
+      "default": 3,
+      "min": 1,
+      "max": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog Grid",
+      "category": "Blog"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,127 @@
+<section class="logo-grid">
+  <div class="container">
+    <div class="choose-refresh-content">
+      <div class="choose-refresh-heading">
+        <p>{{ section.settings.section_heading }}</p>
+        <h2>{{ section.settings.section_subheading }}</h2>
+      </div>
+      <div class="logo-grid-main">
+        {% for block in section.blocks %}
+          <div class="logo-grid-item">
+            {% if block.settings.logo %}
+              <img
+                src="{{ block.settings.logo | img_url: 'medium' }}"
+                alt="{{ block.settings.caption | escape }}"
+              >
+            {% endif %}
+            {% if block.settings.heading != blank %}
+              <h4>{{ block.settings.heading }}</h4>
+            {% endif %}
+            {% if block.settings.caption != blank %}
+              <p>{{ block.settings.caption }}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .choose-refresh-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+  .choose-refresh-heading {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .choose-refresh-heading p {
+    text-transform: uppercase;
+  }
+  .logo-grid {
+    padding: 80px 0;
+    background-color: var(--color-primary);
+    color: var(--color-background);
+  }
+  .logo-grid-main {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .logo-grid-item {
+    text-align: center;
+    max-width: 150px;
+  }
+  .logo-grid-item img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+  }
+  .logo-grid-item:hover img {
+    transform: scale(1.05);
+  }
+  .logo-grid-item p {
+    font-size: 14px;
+    color: var(--color-text);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Logo Grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Section Heading",
+      "default": "Why Choose Refresh"
+    },
+    {
+      "type": "text",
+      "id": "section_subheading",
+      "label": "Section Subheading",
+      "default": "Your Subheading Here"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo_item",
+      "name": "Logo Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo Image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Logo Heading",
+          "default": "Your Heading Here"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Logo Caption",
+          "default": "Your Caption Here"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Logo Grid",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}
