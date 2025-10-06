@@ -1,12 +1,12 @@
 <section class="product-grid">
   <div class="container">
     <div class="product-grid-main">
-      <div class="product-grid-heading">{{ section.settings.section_heading }}</div>
+      <h2>{{ section.settings.section_heading }}</h2>
       <div class="product-grid-content">
         {% for product in collections[section.settings.collection].products limit: section.settings.grid_item_count %}
           <div class="product-grid-item">
             <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
-            <h4>{{ product.title }}</h4>
+            <h5>{{ product.title }}</h5>
             <p>{{ product.price | money }}</p>
             <a href="{{ product.url }}" class="btn">Add to cart</a>
           </div>
@@ -19,6 +19,11 @@
 <style>
   .product-grid {
     padding: 80px;
+  }
+  .product-grid-main {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
   }
 
   .product-grid-content {
