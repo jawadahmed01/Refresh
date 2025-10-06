@@ -1,18 +1,12 @@
 {
-  "name": "header-group",
+  "name": "Header",
   "type": "header",
   "sections": {
     "header": {
       "type": "header",
-      "settings":{}
-    },
-    "announcement-bar":{
-      "type": "announcement-bar",
-      "settings": {},
     }
   },
   "order": [
-    "announcement-bar",
     "header"
   ]
 }
