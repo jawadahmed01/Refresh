@@ -1,0 +1,54 @@
+<section class="product-grid">
+  <div class="container">
+    <div class="{{ section.settings.grid_item_count | default: 4 }} product-grid-content">
+      <div class="product-grid-item">
+        <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+        <h4>{{ product.title }}</h4>
+        <p>{{ product.price | money }}</p>
+        <a href="{{ product.url }}" class="btn">Add to cart</a>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  .product-grid {
+    padding: 80px;
+  }
+
+  .product-grid-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .product-grid-item {
+    border: 1px solid var(--color-primary);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .product-grid-item img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+</style>
+{% schema %}
+{
+  "name": "Product Grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "grid_item_count",
+      "label": "Number of items to display",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 4
+    }
+  ]
+}
+{% endschema %}

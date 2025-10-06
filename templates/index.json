@@ -4,9 +4,15 @@
             "type": "hero",
             "settings": {
             }
+        },
+        "product-grid": {
+            "type": "product-grid",
+            "settings": {
+            }
         }
     },
     "order": [
         "main",
+        "product-grid"
     ]
 }
