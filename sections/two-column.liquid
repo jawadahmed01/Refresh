@@ -1,0 +1,153 @@
+<section class="two-column">
+  <div class="container">
+    <div class="two-column-main {% if section.settings.layout == 'reverse' %}reverse{% endif %}">
+      <div class="two-column-image">
+        {% if section.settings.image %}
+          <img
+            src="{{ section.settings.image | img_url: 'large' }}"
+            alt="{{ section.settings.image_alt | escape }}"
+          >
+        {% endif %}
+      </div>
+      <div class="two-column-content">
+        <h2>{{ section.settings.heading }}</h2>
+        <p>{{ section.settings.text }}</p>
+        {% if section.settings.button_text != blank and section.settings.button_link != blank %}
+          <a href="{{ section.settings.button_link }}" class="solid-button">{{ section.settings.button_text }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .two-column {
+    padding: 80px 0;
+    background-color: var(--color-background);
+  }
+
+  .two-column-main {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  /* 👇 Default Layout (Image Left, Text Right) */
+  .two-column-main:not(.reverse) .two-column-image {
+    order: 1;
+  }
+  .two-column-main:not(.reverse) .two-column-content {
+    order: 2;
+  }
+
+  /* 👇 Reverse Layout (Image Right, Text Left) */
+  .two-column-main.reverse .two-column-image {
+    order: 2;
+  }
+  .two-column-main.reverse .two-column-content {
+    order: 1;
+  }
+
+  .two-column-image,
+  .two-column-content {
+    flex: 1 1 45%;
+    min-width: 300px;
+  }
+
+  .two-column-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  .two-column-content h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: var(--color-text);
+  }
+
+  .two-column-content p {
+    font-size: 16px;
+    margin-bottom: 30px;
+    color: var(--color-text);
+  }
+
+  @media (max-width: 768px) {
+    .two-column-main {
+      flex-direction: column;
+      gap: 20px;
+    }
+    .two-column-image,
+    .two-column-content {
+      flex: 1 1 100%;
+      order: unset;
+    }
+    .two-column-content h2 {
+      font-size: 28px;
+    }
+    .two-column-content p {
+      font-size: 14px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Two Column Section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout Direction",
+      "default": "default",
+      "options": [
+        { "value": "default", "label": "Image Left, Text Right" },
+        { "value": "reverse", "label": "Image Right, Text Left" }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image Alt Text",
+      "default": "Descriptive text for the image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Your Heading Here"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Your descriptive text goes here. You can provide more details about the image or the section."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link",
+      "default": "#"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Two Column Section",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}
