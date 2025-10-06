@@ -1,15 +1,21 @@
 <section class="product-grid">
   <div class="container">
-    <div class="{{ section.settings.grid_item_count | default: 4 }} product-grid-content">
-      <div class="product-grid-item">
-        <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
-        <h4>{{ product.title }}</h4>
-        <p>{{ product.price | money }}</p>
-        <a href="{{ product.url }}" class="btn">Add to cart</a>
+    <div class="product-grid-main">
+      <div class="product-grid-heading">{{ section.settings.section_heading }}</div>
+      <div class="product-grid-content">
+        {% for product in collections[section.settings.collection].products limit: section.settings.grid_item_count %}
+          <div class="product-grid-item">
+            <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+            <h4>{{ product.title }}</h4>
+            <p>{{ product.price | money }}</p>
+            <a href="{{ product.url }}" class="btn">Add to cart</a>
+          </div>
+        {% endfor %}
       </div>
     </div>
   </div>
 </section>
+
 <style>
   .product-grid {
     padding: 80px;
@@ -17,7 +23,7 @@
 
   .product-grid-content {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
   }
 
@@ -35,7 +41,14 @@
     border-radius: 8px;
     margin-bottom: 15px;
   }
+
+  @media (max-width: 768px) {
+    .product-grid-content {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
 </style>
+
 {% schema %}
 {
   "name": "Product Grid",
@@ -44,10 +57,21 @@
       "type": "range",
       "id": "grid_item_count",
       "label": "Number of items to display",
-      "min": 1,
+      "min": 2,
       "max": 12,
-      "step": 1,
+      "step": 2,
       "default": 4
+    },
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Section Heading",
+      "default": "Featured Products"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Select Collection"
     }
   ]
 }
