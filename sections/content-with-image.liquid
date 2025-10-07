@@ -3,7 +3,7 @@
     <div class="content-image-main {% if section.settings.layout == 'image_left' %}reverse{% endif %}">
       <div class="content-image-left">
         <h2>{{ section.settings.heading }}</h2>
-        {% if section.settings.subheading != blank %}
+        {% if section.settings.description != blank %}
           <p>{{ section.settings.description }}</p>
         {% endif %}
         {% if section.settings.button_text != blank %}
