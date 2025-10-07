@@ -1,13 +1,13 @@
-<section class="logo-grid">
+<section class="logo-with-text">
   <div class="container">
-    <div class="choose-refresh-content">
-      <div class="choose-refresh-heading">
+    <div class="logo-with-text-content">
+      <div class="logo-with-text-heading">
         <p>{{ section.settings.section_heading }}</p>
         <h2>{{ section.settings.section_subheading }}</h2>
       </div>
-      <div class="logo-grid-main">
+      <div class="logo-with-text-main">
         {% for block in section.blocks %}
-          <div class="logo-grid-item">
+          <div class="logo-with-text-item">
             {% if block.settings.logo %}
               <img
                 src="{{ block.settings.logo | img_url: 'medium' }}"
@@ -28,58 +28,66 @@
 </section>
 
 <style>
-  .choose-refresh-content {
+  .logo-with-text {
+    padding: 80px 0;
+    background-color: var(--color-primary);
+    color: var(--color-background);
+  }
+
+  .logo-with-text-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 40px;
   }
-  .choose-refresh-heading {
+
+  .logo-with-text-heading {
     text-align: center;
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
-  .choose-refresh-heading h2 {
+
+  .logo-with-text-heading h2 {
     color: var(--color-secondary);
   }
-  .choose-refresh-heading p {
+
+  .logo-with-text-heading p {
     text-transform: uppercase;
   }
-  .logo-grid {
-    padding: 80px 0;
-    background-color: var(--color-primary);
-    color: var(--color-background);
-  }
-  .logo-grid-main {
+
+  .logo-with-text-main {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     align-items: center;
     gap: 40px;
     flex-wrap: wrap;
   }
-  .logo-grid-item {
+
+  .logo-with-text-item {
     text-align: center;
   }
-  .logo-grid-item img {
-    max-width: 100%;
+
+  .logo-with-text-item img {
+    max-width: 120px;
     height: auto;
     object-fit: contain;
   }
-  .logo-grid-item p {
+
+  .logo-with-text-item p {
     color: var(--color-text);
   }
 </style>
 
 {% schema %}
 {
-  "name": "Choose Refresh",
+  "name": "Logo With Text",
   "settings": [
     {
       "type": "text",
       "id": "section_heading",
       "label": "Section Heading",
-      "default": "Why Choose Refresh"
+      "default": "Why Choose Us"
     },
     {
       "type": "text",
@@ -116,7 +124,7 @@
   "max_blocks": 12,
   "presets": [
     {
-      "name": "Choose Refresh",
+      "name": "Logo With Text",
       "category": "Image"
     }
   ]
