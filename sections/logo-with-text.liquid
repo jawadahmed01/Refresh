@@ -58,7 +58,7 @@
 
   .logo-with-text-main {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     align-items: center;
     gap: 20px;
   }
@@ -79,6 +79,19 @@
 
   .logo-with-text-item p {
     color: var(--color-text);
+  }
+  @media (max-width: 992px) {
+    .logo-with-text-main {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 600px) {
+    .logo-with-text {
+      padding: 40px 0;
+    }
+    .logo-with-text-main {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
 
