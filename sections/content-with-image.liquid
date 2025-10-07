@@ -4,7 +4,7 @@
       <div class="content-image-left">
         <h2>{{ section.settings.heading }}</h2>
         {% if section.settings.subheading != blank %}
-          <p>{{ section.settings.subheading }}</p>
+          <p>{{ section.settings.description }}</p>
         {% endif %}
         {% if section.settings.button_text != blank %}
           <a href="{{ section.settings.button_link }}" class="button">{{ section.settings.button_text }}</a>
@@ -32,7 +32,7 @@
     background-color: var(--color-secondary);
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   }
 
   /* Reverse layout when image is on the left */
@@ -56,7 +56,7 @@
 
   /* When layout is image_left → image width = 35% */
   .content-image-main.reverse .content-image-right {
-    width: 35%;
+    width: 30%;
   }
 
   .content-image-right img {
@@ -96,7 +96,7 @@
       "label": "Layout",
       "options": [
         { "value": "image_right", "label": "Image on Right (50% width)" },
-        { "value": "image_left", "label": "Image on Left (35% width)" }
+        { "value": "image_left", "label": "Image on Left (30% width)" }
       ],
       "default": "image_right"
     },
@@ -108,8 +108,8 @@
     },
     {
       "type": "text",
-      "id": "subheading",
-      "label": "Subheading",
+      "id": "description",
+      "label": "Description",
       "default": "Shop the latest products"
     },
     {
