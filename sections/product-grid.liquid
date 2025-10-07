@@ -1,7 +1,7 @@
 <section class="product-grid">
   <div class="container">
     <div class="product-grid-main">
-      <div class="product-grid-heading">{{ section.settings.section_heading }}</div>
+      <h3>{{ section.settings.section_heading }}</h3>
       <div class="product-grid-content">
         {% for product in collections[section.settings.collection].products limit: section.settings.grid_item_count %}
           <div class="product-grid-item">
