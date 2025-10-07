@@ -10,7 +10,7 @@
             >
           {% endif %}
           {% if block.settings.caption != blank %}
-            <p>{{ block.settings.caption }}</p>
+            <h5>{{ block.settings.caption }}</h5>
           {% endif %}
         </div>
       {% endfor %}
@@ -31,6 +31,11 @@
   .logo-grid-item {
     text-align: center;
     max-width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
   }
   .logo-grid-item img {
     max-width: 100%;
