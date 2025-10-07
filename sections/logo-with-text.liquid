@@ -60,16 +60,19 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     align-items: center;
-    gap: 40px;
-    flex-wrap: wrap;
+    gap: 20px;
   }
 
   .logo-with-text-item {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   .logo-with-text-item img {
-    max-width: 120px;
+    max-width: 80px;
     height: auto;
     object-fit: contain;
   }
