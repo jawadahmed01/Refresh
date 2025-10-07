@@ -1,0 +1,140 @@
+<section class="content-image">
+  <div class="container">
+    <div class="content-image-main {% if section.settings.layout == 'image_left' %}reverse{% endif %}">
+      <div class="content-image-left">
+        <h2>{{ section.settings.heading }}</h2>
+        {% if section.settings.subheading != blank %}
+          <p>{{ section.settings.subheading }}</p>
+        {% endif %}
+        {% if section.settings.button_text != blank %}
+          <a href="{{ section.settings.button_link }}" class="button">{{ section.settings.button_text }}</a>
+        {% endif %}
+      </div>
+      <div class="content-image-right">
+        {% if section.settings.image %}
+          <img src="{{ section.settings.image | img_url: 'medium' }}" alt="{{ section.settings.heading }}">
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .content-image {
+    padding: 80px 0;
+  }
+
+  .content-image-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    background-color: var(--color-secondary);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Reverse layout when image is on the left */
+  .content-image-main.reverse {
+    flex-direction: row-reverse;
+  }
+
+  .content-image-left {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+  }
+
+  .content-image-right {
+    flex-shrink: 0;
+    width: 50%;
+  }
+
+  /* When layout is image_left → image width = 35% */
+  .content-image-main.reverse .content-image-right {
+    width: 35%;
+  }
+
+  .content-image-right img {
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+    object-fit: cover;
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .content-image {
+      padding: 40px 0;
+    }
+    .content-image-main {
+      flex-direction: column;
+    }
+
+    .content-image-right {
+      width: 100% !important;
+    }
+
+    .content-image-left {
+      padding: 20px;
+      text-align: center;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Content with Image",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "image_right", "label": "Image on Right (50% width)" },
+        { "value": "image_left", "label": "Image on Left (35% width)" }
+      ],
+      "default": "image_right"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured Products"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Shop the latest products"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Content with Image",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}
