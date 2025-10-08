@@ -1,56 +1,72 @@
 <footer class="footer">
   <div class="container">
     <div class="footer-main-wrap">
-      <!-- Email Subscription Snippet -->
-      <div class="email-subscription">
-        {% render 'email-subscription' %}
-      </div>
+      <!-- ✅ Email Subscription Snippet -->
+      {% if section.settings.show_subscription %}
+        <div class="email-subscription">
+          {% render 'email-subscription' %}
+        </div>
+      {% endif %}
 
-      <!-- Footer Menus -->
+      <!-- ✅ Footer Menus -->
       <div class="footer-content-wrap">
         <div class="footer-top-bar">
           {% for block in section.blocks %}
-            {% if block.type == 'menu' %}
-              <div class="footer-menu-wrap">
-                {% if block.settings.menu_heading != blank %}
-                  <h5>{{ block.settings.menu_heading }}</h5>
-                {% endif %}
-                <div class="footer-links-wrap">
+            {% case block.type %}
+              {% when 'menu' %}
+                <div class="footer-menu-wrap">
+                  {% if block.settings.menu_heading != blank %}
+                    <h5>{{ block.settings.menu_heading }}</h5>
+                  {% endif %}
                   {% if block.settings.footer_menu != blank %}
-                    {% for link in linklists[block.settings.footer_menu].links %}
-                      <a href="{{ link.url }}">{{ link.title }}</a>
-                    {% endfor %}
+                    <div class="footer-links-wrap">
+                      {% for link in linklists[block.settings.footer_menu].links %}
+                        <a href="{{ link.url }}">{{ link.title }}</a>
+                      {% endfor %}
+                    </div>
                   {% endif %}
                 </div>
-              </div>
-            {% elsif block.type == 'text' %}
-              <div class="footer-menu-wrap">
-                {% if block.settings.title != blank %}
-                  <h5>{{ block.settings.title }}</h5>
-                {% endif %}
-                <p>{{ block.settings.text }}</p>
-              </div>
-            {% elsif block.type == 'logo' %}
-              <div class="footer-logo-wrap">
-                {% if block.settings.logo != blank %}
-                  <img src="{{ block.settings.logo | image_url }}" alt="Footer Logo">
-                {% endif %}
-              </div>
-            {% endif %}
+
+              {% when 'text' %}
+                <div class="footer-menu-wrap">
+                  {% if block.settings.title != blank %}
+                    <h5>{{ block.settings.title }}</h5>
+                  {% endif %}
+                  <p>{{ block.settings.text }}</p>
+                </div>
+
+              {% when 'logo' %}
+                <div class="footer-logo-wrap">
+                  {% if block.settings.logo != blank %}
+                    <img src="{{ block.settings.logo | image_url }}" alt="Footer Logo">
+                  {% endif %}
+                </div>
+            {% endcase %}
           {% endfor %}
         </div>
 
-        <!-- Social Icons -->
+        <!-- ✅ Social Media Icons -->
         <div class="footer-social-wrap">
           <div class="footer-social-icon-wrap">
-            {% if section.settings.facebook_url != blank %}
-              <a href="{{ section.settings.facebook_url }}"><i class="fab fa-facebook-f"></i></a>
+            {% if section.settings.facebook_image != blank %}
+              <a href="{{ section.settings.facebook_url }}" target="_blank">
+                <img src="{{ section.settings.facebook_image | image_url: width: 24 }}" alt="Facebook">
+              </a>
             {% endif %}
-            {% if section.settings.twitter_url != blank %}
-              <a href="{{ section.settings.twitter_url }}"><i class="fab fa-twitter"></i></a>
+            {% if section.settings.twitter_image != blank %}
+              <a href="{{ section.settings.twitter_url }}" target="_blank">
+                <img src="{{ section.settings.twitter_image | image_url: width: 24 }}" alt="Twitter">
+              </a>
             {% endif %}
-            {% if section.settings.instagram_url != blank %}
-              <a href="{{ section.settings.instagram_url }}"><i class="fab fa-instagram"></i></a>
+            {% if section.settings.instagram_image != blank %}
+              <a href="{{ section.settings.instagram_url }}" target="_blank">
+                <img src="{{ section.settings.instagram_image | image_url: width: 24 }}" alt="Instagram">
+              </a>
+            {% endif %}
+            {% if section.settings.youtube_image != blank %}
+              <a href="{{ section.settings.youtube_url }}" target="_blank">
+                <img src="{{ section.settings.youtube_image | image_url: width: 24 }}" alt="YouTube">
+              </a>
             {% endif %}
           </div>
         </div>
@@ -73,24 +89,17 @@
   .footer-main-wrap {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 40px;
   }
   .footer-top-bar {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
   }
-  .footer-menu-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  .footer-menu-wrap a {
-    text-decoration: none;
-    color: var(--color-secondary);
-  }
-  .footer-menu-wrap a:hover {
-    color: var(--color-text);
+  .footer-menu-wrap h5 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    font-weight: 600;
   }
   .footer-links-wrap {
     display: flex;
@@ -98,38 +107,41 @@
     gap: 8px;
   }
   .footer-links-wrap a {
-    display: block;
-    color: var(--color-secondary);
     text-decoration: none;
-    margin-bottom: 6px;
+    color: var(--color-secondary);
     transition: color 0.3s;
   }
   .footer-links-wrap a:hover {
     color: #fff;
   }
+  .footer-logo-wrap img {
+    max-width: 150px;
+    height: auto;
+  }
   .footer-social-wrap {
     text-align: center;
   }
-  .footer-social-icon-wrap a {
-    color: var(--color-secondary);
-    margin: 0 8px;
-    font-size: 18px;
-    transition: color 0.3s;
+  .footer-social-icon-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
   }
-  .footer-social-icon-wrap a:hover {
-    color: #fff;
+  .footer-social-icon-wrap img {
+    width: 28px;
+    height: 28px;
+    transition: opacity 0.3s;
+  }
+  .footer-social-icon-wrap img:hover {
+    opacity: 0.7;
   }
   .footer-line {
     border-top: 1px solid rgba(255, 255, 255, 0.2);
-    margin: 20px 0;
+    margin-top: 20px;
   }
   .footer-copy-right {
     text-align: center;
     font-size: 13px;
-  }
-  .footer-logo-wrap img {
-    max-width: 150px;
-    height: auto;
   }
   @media (max-width: 768px) {
     .footer-top-bar {
@@ -151,9 +163,25 @@
   "name": "Footer",
   "settings": [
     {
+      "type": "checkbox",
+      "id": "show_subscription",
+      "label": "Show email subscription",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "facebook_image",
+      "label": "Facebook Icon"
+    },
+    {
       "type": "url",
       "id": "facebook_url",
       "label": "Facebook URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "twitter_image",
+      "label": "Twitter Icon"
     },
     {
       "type": "url",
@@ -161,9 +189,24 @@
       "label": "Twitter URL"
     },
     {
+      "type": "image_picker",
+      "id": "instagram_image",
+      "label": "Instagram Icon"
+    },
+    {
       "type": "url",
       "id": "instagram_url",
       "label": "Instagram URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "youtube_image",
+      "label": "YouTube Icon"
+    },
+    {
+      "type": "url",
+      "id": "youtube_url",
+      "label": "YouTube URL"
     }
   ],
   "blocks": [
