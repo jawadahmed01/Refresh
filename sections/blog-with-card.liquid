@@ -8,9 +8,9 @@
       {% endif %}
 
       <div class="blog-card-list-wrap">
-        {% assign blog = blogs[section.settings.blog] %}
-        {% if blog.articles.size > 0 %}
-          {% for article in blog.articles limit: 3 %}
+        {% for block in section.blocks %}
+          {% assign article = articles[block.settings.article] %}
+          {% if article %}
             <div class="blog-card-item">
               {% if article.image %}
                 <img src="{{ article.image | img_url: 'medium' }}" alt="{{ article.title }}">
@@ -20,10 +20,8 @@
               <p>{{ article.excerpt_or_content | strip_html | truncate: 100 }}</p>
               <a href="{{ article.url }}">Read More</a>
             </div>
-          {% endfor %}
-        {% else %}
-          <p>No blog posts found.</p>
-        {% endif %}
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -87,17 +85,36 @@
       "id": "heading",
       "label": "Heading",
       "default": "Latest Blog Posts"
-    },
+    }
+  ],
+  "blocks": [
     {
-      "type": "blog",
-      "id": "blog",
-      "label": "Select Blog"
+      "type": "article",
+      "name": "Blog Post",
+      "settings": [
+        {
+          "type": "article",
+          "id": "article",
+          "label": "Select Blog Post"
+        }
+      ]
     }
   ],
   "presets": [
     {
       "name": "Blog With Card",
-      "category": "Blog"
+      "category": "Blog",
+      "blocks": [
+        {
+          "type": "article"
+        },
+        {
+          "type": "article"
+        },
+        {
+          "type": "article"
+        }
+      ]
     }
   ]
 }
