@@ -1,15 +1,29 @@
 <section class="blog-card">
   <div class="container">
     <div class="blog-card-content-wrap">
-      <div class="blog-card-heading-wrap">
-        <h2>Heading</h2>
-      </div>
-      <div class="blog-card-list-wrap">
-        <div class="blog-card-item">
-          <h5>Heading Item</h5>
-          <p>April 21,2026</p>
-          <p>Description Text</p>
+      {% if section.settings.heading != blank %}
+        <div class="blog-card-heading-wrap">
+          <h2>{{ section.settings.heading }}</h2>
         </div>
+      {% endif %}
+
+      <div class="blog-card-list-wrap">
+        {% assign blog = blogs[section.settings.blog] %}
+        {% if blog.articles.size > 0 %}
+          {% for article in blog.articles limit: 3 %}
+            <div class="blog-card-item">
+              {% if article.image %}
+                <img src="{{ article.image | img_url: 'medium' }}" alt="{{ article.title }}">
+              {% endif %}
+              <h5>{{ article.title }}</h5>
+              <p>{{ article.published_at | date: '%B %d, %Y' }}</p>
+              <p>{{ article.excerpt_or_content | strip_html | truncate: 100 }}</p>
+              <a href="{{ article.url }}">Read More</a>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>No blog posts found.</p>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -17,22 +31,53 @@
 
 <style>
   .blog-card {
-    padding: 80px 0px;
+    padding: 80px 0;
   }
+
   .blog-card-content-wrap {
     display: flex;
     flex-direction: column;
     gap: 40px;
   }
+
   .blog-card-list-wrap {
     display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
   }
+
   .blog-card-item {
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
+
+  .blog-card-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+
+  .blog-card-item a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    font-weight: 500;
+  }
+
+  /* Responsive */
+  @media (max-width: 992px) {
+    .blog-card-list-wrap {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .blog-card-list-wrap {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
+
 {% schema %}
 {
   "name": "Blog With Card",
@@ -40,7 +85,13 @@
     {
       "type": "text",
       "id": "heading",
-      "label": "Heading"
+      "label": "Heading",
+      "default": "Latest Blog Posts"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Select Blog"
     }
   ],
   "presets": [
