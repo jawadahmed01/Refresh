@@ -16,9 +16,8 @@
                 <img src="{{ article.image | img_url: 'medium' }}" alt="{{ article.title }}">
               {% endif %}
               <h5>{{ article.title }}</h5>
-              <p>{{ article.published_at | date: '%B %d, %Y' }}</p>
+              <p class="blog-card-date">{{ article.published_at | date: '%B %d, %Y' }}</p>
               <p>{{ article.excerpt_or_content | strip_html | truncate: 100 }}</p>
-              <a href="{{ article.url }}">Read More</a>
             </div>
           {% endif %}
         {% endfor %}
@@ -48,18 +47,24 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+  }
+  .blog-card-item:hover img {
+    transform: scale(1.1);
   }
 
   .blog-card-item img {
     width: 100%;
-    height: auto;
-    border-radius: 12px;
+    height: 250px;
+    object-fit: cover;
   }
-
-  .blog-card-item a {
+  .blog-card-date {
+    font-size: 13px;
+    text-transform: uppercase;
     color: var(--color-primary);
-    text-decoration: underline;
-    font-weight: 500;
   }
 
   /* Responsive */
@@ -70,6 +75,9 @@
   }
 
   @media (max-width: 600px) {
+    .blog-card {
+      padding: 40px 0px;
+    }
     .blog-card-list-wrap {
       grid-template-columns: 1fr;
     }
