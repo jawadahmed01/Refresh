@@ -1,1 +1,222 @@
-<h1>Footer Components</h1>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-main-wrap">
+      <!-- Email Subscription Snippet -->
+      <div class="email-subscription">
+        {% render 'email-subscription' %}
+      </div>
+
+      <!-- Footer Menus -->
+      <div class="footer-content-wrap">
+        <div class="footer-top-bar">
+          {% for block in section.blocks %}
+            {% if block.type == 'menu' %}
+              <div class="footer-menu-wrap">
+                {% if block.settings.menu_heading != blank %}
+                  <h5>{{ block.settings.menu_heading }}</h5>
+                {% endif %}
+                <div class="footer-links-wrap">
+                  {% if block.settings.footer_menu != blank %}
+                    {% for link in linklists[block.settings.footer_menu].links %}
+                      <a href="{{ link.url }}">{{ link.title }}</a>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+            {% elsif block.type == 'text' %}
+              <div class="footer-menu-wrap">
+                {% if block.settings.title != blank %}
+                  <h5>{{ block.settings.title }}</h5>
+                {% endif %}
+                <p>{{ block.settings.text }}</p>
+              </div>
+            {% elsif block.type == 'logo' %}
+              <div class="footer-logo-wrap">
+                {% if block.settings.logo != blank %}
+                  <img src="{{ block.settings.logo | image_url }}" alt="Footer Logo">
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <!-- Social Icons -->
+        <div class="footer-social-wrap">
+          <div class="footer-social-icon-wrap">
+            {% if section.settings.facebook_url != blank %}
+              <a href="{{ section.settings.facebook_url }}"><i class="fab fa-facebook-f"></i></a>
+            {% endif %}
+            {% if section.settings.twitter_url != blank %}
+              <a href="{{ section.settings.twitter_url }}"><i class="fab fa-twitter"></i></a>
+            {% endif %}
+            {% if section.settings.instagram_url != blank %}
+              <a href="{{ section.settings.instagram_url }}"><i class="fab fa-instagram"></i></a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-line"></div>
+      <div class="footer-copy-right">
+        <p>© {{ 'now' | date: '%Y' }}, {{ shop.name }} — Powered by Shopify</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    padding: 80px 0;
+  }
+  .footer-main-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  .footer-top-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+  }
+  .footer-menu-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .footer-menu-wrap a {
+    text-decoration: none;
+    color: var(--color-secondary);
+  }
+  .footer-menu-wrap a:hover {
+    color: var(--color-text);
+  }
+  .footer-links-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .footer-links-wrap a {
+    display: block;
+    color: var(--color-secondary);
+    text-decoration: none;
+    margin-bottom: 6px;
+    transition: color 0.3s;
+  }
+  .footer-links-wrap a:hover {
+    color: #fff;
+  }
+  .footer-social-wrap {
+    text-align: center;
+  }
+  .footer-social-icon-wrap a {
+    color: var(--color-secondary);
+    margin: 0 8px;
+    font-size: 18px;
+    transition: color 0.3s;
+  }
+  .footer-social-icon-wrap a:hover {
+    color: #fff;
+  }
+  .footer-line {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 20px 0;
+  }
+  .footer-copy-right {
+    text-align: center;
+    font-size: 13px;
+  }
+  .footer-logo-wrap img {
+    max-width: 150px;
+    height: auto;
+  }
+  @media (max-width: 768px) {
+    .footer-top-bar {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 480px) {
+    .footer-top-bar {
+      grid-template-columns: 1fr;
+    }
+    .footer-logo-wrap {
+      text-align: center;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "twitter_url",
+      "label": "Twitter URL"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu Column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "menu_heading",
+          "label": "Menu Heading"
+        },
+        {
+          "type": "link_list",
+          "id": "footer_menu",
+          "label": "Select Menu"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text Column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text Content"
+        }
+      ]
+    },
+    {
+      "type": "logo",
+      "name": "Logo Column",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Footer Logo"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Footer",
+      "blocks": [{ "type": "menu" }, { "type": "menu" }, { "type": "text" }, { "type": "logo" }]
+    }
+  ]
+}
+{% endschema %}

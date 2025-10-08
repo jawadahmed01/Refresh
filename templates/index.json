@@ -9,10 +9,14 @@
             "type": "product-grid",
             "settings": {
             }
-        }
+        },
+        "name":"email-subcription",
+        "settings": {
+            
     },
     "order": [
         "main",
-        "product-grid"
+        "product-grid",
+        "email-subcription"
     ]
 }
