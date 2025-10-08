@@ -1,122 +1,46 @@
 <section class="blog-card">
   <div class="container">
-    <div class="blog-card-main">
-      {% assign blog_handle = section.settings.blog | default: 'news' %}
-      {% if blogs[blog_handle].articles_count > 0 %}
-        {% for article in blogs[blog_handle].articles limit: section.settings.grid_item_count %}
-          <div class="blog-card-item">
-            {% if article.image %}
-              <a href="{{ article.url }}">
-                <img
-                  src="{{ article.image | img_url: 'large' }}"
-                  alt="{{ article.title | escape }}"
-                >
-              </a>
-            {% endif %}
-            <div class="blog-card-text-wrap">
-              <h4>{{ article.title }}</h4>
-              <h6>{{ article.published_at | date: '%B %d, %Y' }}</h6>
-              <p>{{ article.excerpt | strip_html | truncate: 100 }}</p>
-            </div>
-          </div>
-        {% endfor %}
-      {% else %}
-        <p>No articles found in the selected blog.</p>
-      {% endif %}
-    </div>
-
-    {% if blogs[blog_handle].articles_count > 0 %}
-      <div class="blog-card-footer">
-        <a href="{{ blogs[blog_handle].url }}" class="button">View all</a>
+    <div class="blog-card-content-wrap">
+      <div class="blog-card-heading-wrap">
+        <h2>Heading</h2>
       </div>
-    {% endif %}
+      <div class="blog-card-list-wrap">
+        <div class="blog-card-item">
+          <h5>Heading Item</h5>
+          <p>April 21,2026</p>
+          <p>Description Text</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
 <style>
   .blog-card {
-    padding: 80px 0;
-    background-color: var(--color-background);
+    padding: 80px 0px;
   }
-
-  .blog-card-main {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+  .blog-card-content-wrap {
+    display: flex;
+    flex-direction: column;
     gap: 40px;
   }
-
+  .blog-card-list-wrap {
+    display: grid;
+  }
   .blog-card-item {
-    border: 1px solid var(--color-primary);
-    border-radius: 8px;
-    padding: 15px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .blog-card-text-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .blog-card-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  }
-
-  .blog-card-item img {
-    max-width: 100%;
-    border-radius: 8px;
-    object-fit: cover;
-    height: 250px;
-    transition: transform 0.3s ease;
-  }
-
-  .blog-card-item:hover img {
-    transform: scale(1.05);
-  }
-
-  .blog-card-footer {
-    text-align: center;
-    margin-top: 40px;
-  }
-
-  @media (max-width: 992px) {
-    .blog-card-main {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 768px) {
-    .blog-card {
-      padding: 40px 0;
-    }
-
-    .blog-card-main {
-      grid-template-columns: repeat(1, 1fr);
-    }
+    gap: 10px;
   }
 </style>
-
 {% schema %}
 {
   "name": "Blog With Card",
   "settings": [
     {
-      "type": "blog",
-      "id": "blog",
-      "label": "Select Blog",
-      "default": "news"
-    },
-    {
-      "type": "number",
-      "id": "grid_item_count",
-      "label": "Number of Articles",
-      "default": 3,
-      "min": 1,
-      "max": 12
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
     }
   ],
   "presets": [
