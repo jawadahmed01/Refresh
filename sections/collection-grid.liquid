@@ -1,0 +1,204 @@
+<section class="collection-grid">
+  <div class="container">
+    <!-- Filter and Sort Top Bar -->
+    <div class="collection-top-bar">
+      <div class="collection-filter-group">
+        <label>
+          Availability:
+          <select id="filter-availability">
+            <option value="all">All</option>
+            <option value="in_stock">In Stock</option>
+            <option value="out_of_stock">Out of Stock</option>
+          </select>
+        </label>
+
+        <label>
+          Price:
+          <select id="filter-price">
+            <option value="all">All</option>
+            <option value="low_high">Low to High</option>
+            <option value="high_low">High to Low</option>
+          </select>
+        </label>
+
+        <label>
+          Sort by:
+          <select id="filter-sort">
+            <option value="best-selling">Best Selling</option>
+            <option value="title-ascending">Alphabetically, A–Z</option>
+            <option value="title-descending">Alphabetically, Z–A</option>
+            <option value="price-ascending">Price, Low to High</option>
+            <option value="price-descending">Price, High to Low</option>
+            <option value="created-descending">Newest</option>
+            <option value="created-ascending">Oldest</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="collection-product-count">
+        Showing <span id="product-count">{{ collection.products_count }}</span> products
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="collection-grid-main">
+      {% for product in collection.products %}
+        <div class="collection-product-card">
+          <a href="{{ product.url }}" class="product-link">
+            {% if product.featured_image %}
+              <img src="{{ product.featured_image | img_url: 'large' }}" alt="{{ product.title }}">
+            {% endif %}
+            <h3>{{ product.title }}</h3>
+            <p class="price">
+              {% if product.compare_at_price > product.price %}
+                <span class="sale-price">{{ product.price | money }}</span>
+                <span class="compare-price">{{ product.compare_at_price | money }}</span>
+              {% else %}
+                {{ product.price | money }}
+              {% endif %}
+            </p>
+          </a>
+        </div>
+      {% else %}
+        <p>No products found in this collection.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .collection-grid {
+    padding: 60px 0;
+  }
+
+  .collection-top-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 15px;
+  }
+
+  .collection-filter-group label {
+    font-size: 14px;
+    margin-right: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .collection-filter-group select {
+    padding: 5px 8px;
+    border: 1px solid var(--color-border, #ccc);
+    border-radius: 6px;
+  }
+
+  .collection-product-count {
+    font-size: 14px;
+    color: var(--color-text, #333);
+  }
+
+  .collection-grid-main {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+  }
+
+  .collection-product-card {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    text-align: center;
+  }
+
+  .collection-product-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .collection-product-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+  }
+
+  .collection-product-card h3 {
+    margin: 10px 0 5px;
+    font-size: 16px;
+  }
+
+  .collection-product-card .price {
+    font-size: 14px;
+    color: #444;
+  }
+
+  .sale-price {
+    color: #e53935;
+    font-weight: bold;
+  }
+
+  .compare-price {
+    text-decoration: line-through;
+    color: #888;
+    margin-left: 6px;
+  }
+
+  /* Responsive Layout */
+  @media (max-width: 992px) {
+    .collection-grid-main {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .collection-grid-main {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 576px) {
+    .collection-grid-main {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Collection Grid",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Select Collection",
+      "default": "hair"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Grid",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+  // Example filter JS (you can extend this)
+  document.addEventListener('DOMContentLoaded', function () {
+    const priceFilter = document.getElementById('filter-price');
+    const productCount = document.getElementById('product-count');
+
+    if (priceFilter) {
+      priceFilter.addEventListener('change', function () {
+        console.log('Price filter changed to:', this.value);
+        // Add filter logic or AJAX for real filtering if needed
+      });
+    }
+
+    if (productCount) {
+      productCount.textContent = document.querySelectorAll('.collection-product-card').length;
+    }
+  });
+</script>
