@@ -1,32 +1,48 @@
-<div class="hero{% if section.settings.full_width %} hero--full-width{% endif %}">
-  <div class="hero__content">
-    {%- if section.settings.heading != blank -%}
-      <h1 class="hero__title">{{ section.settings.heading }}</h1>
-    {%- endif -%}
-
-    {%- if section.settings.subheading != blank -%}
-      <div class="hero__text">{{ section.settings.subheading }}</div>
-    {%- endif -%}
-
-    {%- if section.settings.button_label != blank -%}
-      <a href="{{ section.settings.button_link }}" class="button hero__button">
-        {{ section.settings.button_label }}
-      </a>
-    {%- endif -%}
-  </div>
-
-  {%- if section.settings.image != blank -%}
-    <div class="hero__image">
-      {%- assign img_url = section.settings.image | img_url: '1500x' -%}
-      {{
-        section.settings.image
-        | image_url: width: 1500
-        | image_tag: loading: 'lazy', class: 'hero__image-item', alt: section.settings.image.alt
-        | escape
-      }}
+<section class="hero">
+  <div class="container">
+    <div class="hero-content-wrap">
+      <img src="{{ section.settings.hero_image | img_url: 'master' }}">
+      <div class="hero-text-wrap">
+        <h1>{{ section.settings.hero_title }}</h1>
+        <p>{{ section.settings.hero_description }}</p>
+      </div>
     </div>
-  {%- endif -%}
-</div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: 80px 0;
+    position: relative;
+  }
+
+  .hero-content-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-content-wrap img {
+    position: abssolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 600px;
+    width: 100%;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+  }
+</style>
 
 {% schema %}
 {
@@ -34,40 +50,18 @@
   "settings": [
     {
       "type": "image_picker",
-      "id": "image",
-      "label": "Image"
+      "id": "hero_image",
+      "label": "Hero Image"
     },
     {
       "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Welcome to our store"
+      "id": "hero_title",
+      "label": "Hero Title"
     },
     {
-      "type": "richtext",
-      "id": "subheading",
-      "label": "Subheading"
-    },
-    {
-      "type": "text",
-      "id": "button_label",
-      "label": "Button label"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Button link"
-    },
-    {
-      "type": "checkbox",
-      "id": "full_width",
-      "label": "Full width",
-      "default": false
-    }
-  ],
-  "presets": [
-    {
-      "name": "Hero"
+      "type": "textarea",
+      "id": "hero_description",
+      "label": "Hero Description"
     }
   ]
 }
