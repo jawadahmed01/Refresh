@@ -1,4 +1,4 @@
-<div class="subcription">
+<div class="subcription" style="{{ section.settings.background | replace: 'rgba', 'rgb'}}">
   <h2 class="subcription__title">{{ section.settings.title }}</h2>
   <p class="subcription__text">{{ section.settings.text }}</p>
 
@@ -64,6 +64,12 @@
       "id": "placeholder",
       "label": "Placeholder",
       "default": "Enter your email"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background Color",
+      "default": "#f5f5f5"
     }
   ],
   "presets": [
