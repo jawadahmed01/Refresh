@@ -1,6 +1,8 @@
 <div class="subcription" style="{{ section.settings.background | replace: 'rgba', 'rgb'}}">
   <h2 class="subcription__title">{{ section.settings.title }}</h2>
-  <p class="subcription__text">{{ section.settings.text }}</p>
+  <p class="subcription__text" style="{{ section.settings.text_color | replace: 'rgba', 'rgb'}}">
+    {{ section.settings.text }}
+  </p>
 
   <form action="" class="subcription__form" method="post" id="contact_form" accept-charset="UTF-8">
     <input type="hidden" name="contact[accepts_marketing]" value="true">
