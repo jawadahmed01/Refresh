@@ -12,9 +12,11 @@
           {% assign article = articles[block.settings.article] %}
           {% if article %}
             <div class="blog-card-item">
-              {% if article.image %}
-                <img src="{{ article.image | img_url: 'medium' }}" alt="{{ article.title }}">
-              {% endif %}
+              <div class="blog-card-image-wrap">
+                {% if article.image %}
+                  <img src="{{ article.image | img_url: 'medium' }}" alt="{{ article.title }}">
+                {% endif %}
+              </div>
               <h5>{{ article.title }}</h5>
               <p class="blog-card-date">{{ article.published_at | date: '%B %d, %Y' }}</p>
               <p>{{ article.excerpt_or_content | strip_html | truncate: 100 }}</p>
@@ -36,7 +38,10 @@
     flex-direction: column;
     gap: 40px;
   }
-
+  .blog-card-image-wrap {
+    height: 250px;
+    overflow: hidden;
+  }
   .blog-card-list-wrap {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -50,7 +55,7 @@
     padding: 15px;
     border: 1px solid var(--color-primary);
     border-radius: 10px;
-    transition: all 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out !important;
   }
   .blog-card-item:hover img {
     transform: scale(1.1);
@@ -58,7 +63,7 @@
 
   .blog-card-item img {
     width: 100%;
-    height: 250px;
+    height: 100%;
     object-fit: cover;
   }
   .blog-card-date {
