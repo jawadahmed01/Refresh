@@ -16,8 +16,15 @@
       required
       class="subscription__input"
       aria-label="Email address"
+      style="background-color: {{ section.settings.background }}; color: {{ section.settings.text_color }};"
     >
-    <button type="submit" class="subscription__btn">{{ section.settings.button }}</button>
+    <button
+      type="submit"
+      class="subscription__btn"
+      style="background-color: {{ section.settings.button_background }}; color: {{ section.settings.button_text_color }};"
+    >
+      {{ section.settings.button }}
+    </button>
     {% if form.posted_successfully? %}
       <p class="subscription__success">Thank you for subscribing!</p>
     {% elsif form.errors %}
@@ -34,7 +41,6 @@
     justify-content: center;
     padding: 60px 20px;
     text-align: center;
-    border-radius: 10px;
   }
   .subscription__title {
     font-size: 2rem;
@@ -64,6 +70,7 @@
     border-radius: 5px;
     outline: none;
     font-size: 1rem;
+    background-color: transparent;
   }
   .subscription__btn {
     padding: 10px 20px;
