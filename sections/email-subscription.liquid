@@ -1,0 +1,76 @@
+<div class="subcription">
+  <h2 class="subcription__title">{{ section.settings.title }}</h2>
+  <p class="subcription__text">{{ section.settings.text }}</p>
+
+  <form action="" class="subcription__form" method="post" id="contact_form" accept-charset="UTF-8">
+    <input type="hidden" name="contact[accepts_marketing]" value="true">
+    <input type="email" name="contact[email]" id="Email" placeholder="{{ section.settings.placeholder }}" required>
+    <button type="submit" class="subcription__btn">{{ section.settings.button }}</button>
+  </form>
+</div>
+<style>
+  .subcription {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+  }
+  .subcription__title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .subcription__text {
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 20px;
+  }
+  .subcription__form {
+    border: 1px solid var(--color-secondary);
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 500px;
+  }
+  .subcription__form input {
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Email Subscribe",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Subscribe to our newsletter"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "Get the latest news and updates from us"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Placeholder",
+      "default": "Enter your email"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Email Subscribe",
+      "category": "Newsletter"
+    }
+  ]
+}
+{% endschema %}
