@@ -42,23 +42,28 @@
         --font-heading: {{ settings.heading_font.family }}, sans-serif;
       --font-body: {{ settings.body_font.family }}, sans-serif;
         }
+        .page-wrap {
+          overflow-x: hidden !important;
+        }
     </style>
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ 'base.css' | asset_url }}">
   </head>
   <body>
-    <header>
-      {% sections 'header-group' %}
-    </header>
+    <div class="page-wrap">
+      <header>
+        {% sections 'header-group' %}
+      </header>
 
-    <main role="main">
-      {{ content_for_layout }}
-    </main>
+      <main role="main">
+        {{ content_for_layout }}
+      </main>
 
-    <footer>
-      {% sections 'footer-group' %}
-    </footer>
+      <footer>
+        {% sections 'footer-group' %}
+      </footer>
+    </div>
 
     <!-- JavaScript at Bottom -->
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
