@@ -41,6 +41,13 @@
                     <img src="{{ block.settings.logo | image_url }}" alt="Footer Logo">
                   {% endif %}
                 </div>
+
+              {% when 'custom_link' %}
+                <div class="footer-link-block">
+                  <a href="{{ block.settings.link_url }}" class="footer-link">
+                    {{ block.settings.link_text }}
+                  </a>
+                </div>
             {% endcase %}
           {% endfor %}
         </div>
@@ -98,35 +105,16 @@
     justify-content: center;
     align-items: center;
   }
-  .footer-menu-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  .footer-links-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  .footer-top-bar {
-    display: flex;
-    flex-direction: column;
-  }
-  .footer-top-bar {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-  }
-  .footer-menu-wrap h5 {
-    color: var(--color-secondary);
-    margin-bottom: 12px;
-  }
-  .footer-links-wrap {
-  }
   .footer-top-bar {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
+  }
+  .footer-menu-wrap,
+  .footer-link-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
   .footer-menu-wrap h5 {
     color: var(--color-secondary);
@@ -137,13 +125,16 @@
     flex-direction: column;
     gap: 8px;
   }
-  .footer-links-wrap a {
+  .footer-links-wrap a,
+  .footer-link {
     text-decoration: none;
     color: var(--color-secondary);
-    transition: color 0.3s;
+    transition: color 0.3s ease, transform 0.2s ease;
   }
-  .footer-links-wrap a:hover {
+  .footer-links-wrap a:hover,
+  .footer-link:hover {
     color: #fff;
+    transform: translateX(3px);
   }
   .footer-logo-wrap img {
     max-width: 150px;
@@ -283,13 +274,37 @@
           "label": "Footer Logo"
         }
       ]
+    },
+    {
+      "type": "custom_link",
+      "name": "Custom Link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link Text",
+          "default": "Custom Link"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link URL",
+          "default": "/"
+        }
+      ]
     }
   ],
-  "max_blocks": 4,
+  "max_blocks": 6,
   "presets": [
     {
       "name": "Footer",
-      "blocks": [{ "type": "menu" }, { "type": "menu" }, { "type": "text" }, { "type": "logo" }]
+      "blocks": [
+        { "type": "menu" },
+        { "type": "menu" },
+        { "type": "text" },
+        { "type": "logo" },
+        { "type": "custom_link" }
+      ]
     }
   ]
 }
