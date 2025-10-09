@@ -27,7 +27,7 @@
   }
   .product-grid-content {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
   }
 
@@ -45,10 +45,17 @@
     border-radius: 8px;
     margin-bottom: 15px;
   }
-
-  @media (max-width: 768px) {
+  @media (max-width: 992px) {
     .product-grid-content {
       grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 768px) {
+    .product-grid {
+      padding: 40px;
+    }
+    .product-grid-content {
+      grid-template-columns: repeat(1, 1fr);
     }
   }
 </style>
