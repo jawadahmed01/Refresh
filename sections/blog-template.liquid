@@ -1,0 +1,182 @@
+<section class="blog-section">
+  <div class="container">
+    <div class="blog-header">
+      <h1>{{ blog.title }}</h1>
+      {% if blog.description != blank %}
+        <p class="blog-description">{{ blog.description }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Blog Filters -->
+    <div class="blog-filters">
+      <input
+        type="text"
+        id="blogSearch"
+        placeholder="Search posts..."
+        class="blog-search"
+      >
+      <select id="blogTagFilter" class="blog-filter">
+        <option value="">All Tags</option>
+        {% assign all_tags = blog.all_tags %}
+        {% for tag in all_tags %}
+          <option value="{{ tag | handle }}">{{ tag }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Blog Grid -->
+    <div class="blog-grid">
+      {% paginate blog.articles by 6 %}
+        {% for article in blog.articles %}
+          <article class="blog-card" data-tags="{{ article.tags | join: ' ' | downcase }}">
+            <a href="{{ article.url }}" class="blog-image">
+              {% if article.image %}
+                <img src="{{ article.image | img_url: '800x600' }}" alt="{{ article.title }}">
+              {% else %}
+                <div class="no-image">No Image</div>
+              {% endif %}
+            </a>
+            <div class="blog-content">
+              <h2><a href="{{ article.url }}">{{ article.title }}</a></h2>
+              <p class="blog-date">{{ article.published_at | date: "%B %d, %Y" }}</p>
+              <p class="blog-excerpt">{{ article.excerpt | strip_html | truncatewords: 20 }}</p>
+              <a href="{{ article.url }}" class="read-more">Read More</a>
+            </div>
+          </article>
+        {% endfor %}
+
+        {% if paginate.pages > 1 %}
+          <div class="pagination">
+            {% if paginate.previous %}
+              <a href="{{ paginate.previous.url }}" class="prev">← Prev</a>
+            {% endif %}
+            {% for part in paginate.parts %}
+              {% if part.is_link %}
+                <a href="{{ part.url }}">{{ part.title }}</a>
+              {% else %}
+                <span class="current">{{ part.title }}</span>
+              {% endif %}
+            {% endfor %}
+            {% if paginate.next %}
+              <a href="{{ paginate.next.url }}" class="next">Next →</a>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endpaginate %}
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const searchInput = document.getElementById("blogSearch");
+  const tagFilter = document.getElementById("blogTagFilter");
+  const cards = document.querySelectorAll(".blog-card");
+
+  function filterBlogs() {
+    const searchValue = searchInput.value.toLowerCase();
+    const tagValue = tagFilter.value.toLowerCase();
+
+    cards.forEach(card => {
+      const title = card.querySelector("h2").textContent.toLowerCase();
+      const tags = card.dataset.tags;
+
+      const matchesSearch = title.includes(searchValue);
+      const matchesTag = !tagValue || tags.includes(tagValue);
+
+      if (matchesSearch && matchesTag) {
+        card.style.display = "";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  }
+
+  searchInput.addEventListener("input", filterBlogs);
+  tagFilter.addEventListener("change", filterBlogs);
+});
+</script>
+
+<style>
+    .blog-section {
+  padding: 60px 0;
+}
+.blog-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.blog-description {
+  max-width: 700px;
+  margin: 0 auto;
+  color: #666;
+}
+.blog-filters {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+.blog-search, .blog-filter {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+}
+.blog-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+.blog-card:hover {
+  transform: translateY(-5px);
+}
+.blog-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+.blog-content {
+  padding: 15px;
+}
+.blog-content h2 {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+.blog-date {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 10px;
+}
+.blog-excerpt {
+  font-size: 15px;
+  color: #555;
+}
+.read-more {
+  display: inline-block;
+  margin-top: 10px;
+  color: #007acc;
+}
+.pagination {
+  text-align: center;
+  margin-top: 30px;
+}
+.pagination a, .pagination span {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin: 0 3px;
+  color: #333;
+  text-decoration: none;
+}
+.pagination .current {
+  background: #007acc;
+  color: #fff;
+}
+
+    </style>

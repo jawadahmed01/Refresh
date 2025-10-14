@@ -1,12 +1,9 @@
 {
-    "sections": {
-        "main": {
-            "type": "hero",
-            "settings": {
-            }
-        }
-    },
-    "order": [
-        "main"
-    ]
+  "sections": {
+    "main": {
+      "type": "blog-template",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
 }
