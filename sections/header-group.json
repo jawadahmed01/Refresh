@@ -1,12 +1,44 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "Header",
   "type": "header",
   "sections": {
+    "announcement_bar_4bD7Gi": {
+      "type": "announcement-bar",
+      "name": "Announcement bar",
+      "settings": {
+        "announcement_text": "Free shipping on orders $40+",
+        "background_color": "#ffffff",
+        "text_color": "#000000"
+      }
+    },
     "header": {
       "type": "header",
+      "settings": {
+        "logo": "shopify://shop_images/logo.png",
+        "menu": "main-menu"
+      }
+    },
+    "blog_main_UKYVf6": {
+      "type": "blog-main",
+      "name": "Blog Main Page",
+      "settings": {
+        "heading": "Our Blog",
+        "subheading": "Latest news and stories"
+      }
     }
   },
   "order": [
-    "header"
+    "announcement_bar_4bD7Gi",
+    "header",
+    "blog_main_UKYVf6"
   ]
 }
