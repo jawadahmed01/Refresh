@@ -1,0 +1,185 @@
+<section class="cart-section">
+  <div class="container">
+    <h1 class="cart-title">Your Shopping Cart</h1>
+
+    {% if cart.item_count > 0 %}
+      <form action="{{ routes.cart_url }}" method="post" novalidate class="cart-form">
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in cart.items %}
+              <tr class="cart-item" data-line="{{ forloop.index }}">
+                <td class="cart-item__details">
+                  <a href="{{ item.url }}" class="cart-item__image">
+                    <img src="{{ item.image | img_url: '150x' }}" alt="{{ item.title }}">
+                  </a>
+                  <div class="cart-item__info">
+                    <a href="{{ item.url }}">{{ item.product.title }}</a>
+                    {% if item.variant.title != 'Default Title' %}
+                      <p class="variant">{{ item.variant.title }}</p>
+                    {% endif %}
+                  </div>
+                </td>
+                <td class="cart-item__price">{{ item.price | money }}</td>
+                <td class="cart-item__quantity">
+                  <input
+                    type="number"
+                    name="updates[]"
+                    value="{{ item.quantity }}"
+                    min="0"
+                    class="cart-quantity-input"
+                    data-line="{{ forloop.index }}"
+                  >
+                </td>
+                <td class="cart-item__total">{{ item.line_price | money }}</td>
+                <td class="cart-item__remove">
+                  <button type="button" class="remove-btn" data-line="{{ forloop.index }}">×</button>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <div class="cart-footer">
+          <div class="cart-total">
+            <p>Subtotal: <strong>{{ cart.total_price | money }}</strong></p>
+            <p class="tax-note">Taxes and shipping calculated at checkout.</p>
+          </div>
+          <div class="cart-buttons">
+            <button type="submit" name="update" class="btn update-cart">Update Cart</button>
+            <a href="{{ routes.checkout_url }}" class="btn checkout-btn">Checkout</a>
+          </div>
+        </div>
+      </form>
+    {% else %}
+      <p class="empty-cart">Your cart is currently empty.</p>
+      <a href="{{ routes.all_products_collection_url }}" class="btn continue-shopping">Continue Shopping</a>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+    .cart-section {
+  padding: 60px 20px;
+}
+
+.cart-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cart-table th,
+.cart-table td {
+  padding: 15px;
+  border-bottom: 1px solid #e5e5e5;
+  text-align: left;
+}
+
+.cart-item__image img {
+  width: 80px;
+  border-radius: 8px;
+}
+
+.cart-quantity-input {
+  width: 60px;
+  padding: 6px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.cart-footer {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.cart-buttons .btn {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+}
+
+.update-cart {
+  background: #666;
+}
+
+.checkout-btn {
+  background: #000;
+}
+
+.continue-shopping {
+  background: #000;
+  color: white;
+  padding: 12px 20px;
+  display: inline-block;
+  border-radius: 6px;
+}
+
+.empty-cart {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+  const removeButtons = document.querySelectorAll(".remove-btn");
+
+  removeButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const line = btn.dataset.line;
+      fetch("/cart/change.js", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ line: parseInt(line), quantity: 0 }),
+      })
+        .then(() => location.reload())
+        .catch(console.error);
+    });
+  });
+
+  // Auto-update quantities
+  const quantityInputs = document.querySelectorAll(".cart-quantity-input");
+  quantityInputs.forEach((input) => {
+    input.addEventListener("change", () => {
+      const line = input.dataset.line;
+      const quantity = input.value;
+      fetch("/cart/change.js", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ line: parseInt(line), quantity: parseInt(quantity) }),
+      })
+        .then(() => location.reload())
+        .catch(console.error);
+    });
+  });
+});
+
+    </script>

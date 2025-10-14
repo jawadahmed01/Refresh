@@ -1,13 +1,9 @@
 {
-    "name": "Cart",
-    "sections": {
-        "main": {
-            "type": "hero",
-            "settings": {
-            }
-        }
-    },
-    "order": [
-        "main",
-    ]
+  "sections": {
+    "main": {
+      "type": "cart-template",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
 }
