@@ -1,0 +1,18 @@
+{% comment %}
+Blog Post Detail Page
+{% endcomment %}
+<section class="article-detail container">
+  <a href="{{ blog.url }}" class="back-btn">← Back to {{ blog.title }}</a>
+
+  <article class="article-content">
+    {% if article.image %}
+      <img src="{{ article.image | img_url: 'master' }}" alt="{{ article.title }}" class="article-image">
+    {% endif %}
+    <h1>{{ article.title }}</h1>
+    <p class="meta">Published on {{ article.published_at | date: "%B %d, %Y" }}</p>
+
+    <div class="rte">
+      {{ article.content }}
+    </div>
+  </article>
+</section>
