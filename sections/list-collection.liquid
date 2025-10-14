@@ -1,0 +1,44 @@
+<section class="collection-list">
+  <div class="container">
+    <div class="collection-cards-list">
+      {% for collection in collections %}
+        <div class="collection-card-item">
+          <div class="collection-card">
+            <a href="{{ collection.url }}">
+              <img src="{{ collection.image | img_url: 'large' }}" alt="{{ collection.title }}">
+              <h3>{{ collection.title }}</h3>
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<style>
+  .collection-list {
+    padding: 50px 0;
+  }
+
+  .collection-cards-list {
+    display
+  }
+
+  .collection-card-item {
+    width: 30%;
+    margin-bottom: 30px;
+  }
+
+  .collection-card {
+    text-align: center;
+  }
+
+  .collection-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .collection-card h3 {
+    margin-top: 20px;
+  }
+</style>

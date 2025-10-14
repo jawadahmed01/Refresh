@@ -1,13 +1,10 @@
 {
-    "sections": {
-        "banner": {
-            "type": "hero",
-            "settings": {
-            
-            }
-        }
-    },
-    "order": [
-        "banner",
-    ]
+  "name": "Custom Collection Page",
+  "sections": {
+    "main": {
+      "type": "collection-custom",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
 }
