@@ -1,9 +1,9 @@
 {
+  "name": "Custom Product Page",
   "sections": {
     "main": {
-      "type": "hero",
-        "settings": {
-        }
+      "type": "product-custom",
+      "settings": {}
     }
   },
   "order": ["main"]

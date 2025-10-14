@@ -1,0 +1,211 @@
+{% comment %}
+  Custom Product Page Section
+  Fully dynamic product detail page for Shopify 2.0
+{% endcomment %}
+
+<section class="product-page">
+  <div class="container product-layout">
+    
+    <!-- Left Side: Product Images -->
+    <div class="product-images">
+      {% if product.images.size > 0 %}
+        <div class="main-image">
+          <img id="mainProductImage" src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.title }}">
+        </div>
+        <div class="thumbnail-list">
+          {% for image in product.images %}
+            <img class="thumbnail" src="{{ image | img_url: '200x' }}" alt="{{ product.title }}">
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>No images available</p>
+      {% endif %}
+    </div>
+
+    <!-- Right Side: Product Info -->
+    <div class="product-info">
+      <h1 class="product-title">{{ product.title }}</h1>
+
+      {% if product.vendor %}
+        <p class="vendor">By {{ product.vendor }}</p>
+      {% endif %}
+
+      <p class="product-price">
+        {% if product.compare_at_price > product.price %}
+          <span class="old-price">{{ product.compare_at_price | money }}</span>
+        {% endif %}
+        <span class="current-price">{{ product.price | money }}</span>
+      </p>
+
+      {% if product.available %}
+        <p class="availability in-stock">In Stock</p>
+      {% else %}
+        <p class="availability out-of-stock">Out of Stock</p>
+      {% endif %}
+
+      <!-- Add to Cart Form -->
+      <form method="post" action="/cart/add" id="addToCartForm">
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+        {% if product.variants.size > 1 %}
+          <label for="variant">Choose Option:</label>
+          <select name="id" id="variantSelect">
+            {% for variant in product.variants %}
+              <option value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+            {% endfor %}
+          </select>
+        {% endif %}
+
+        <div class="quantity-wrapper">
+          <label for="quantity">Quantity</label>
+          <input type="number" id="quantity" name="quantity" value="1" min="1">
+        </div>
+
+        <button type="submit" class="btn add-to-cart" {% unless product.available %}disabled{% endunless %}>
+          {% if product.available %}Add to Cart{% else %}Sold Out{% endif %}
+        </button>
+      </form>
+
+      <!-- Product Description -->
+      {% if product.description != blank %}
+        <div class="product-description">
+          <h3>Description</h3>
+          <div class="rte">{{ product.description }}</div>
+        </div>
+      {% endif %}
+
+      <!-- Social Share -->
+      <div class="social-share">
+        <h4>Share This Product</h4>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ product.url }}" target="_blank">Facebook</a>
+        <a href="https://twitter.com/intent/tweet?url={{ shop.url }}{{ product.url }}&text={{ product.title }}" target="_blank">Twitter</a>
+        <a href="https://pinterest.com/pin/create/button/?url={{ shop.url }}{{ product.url }}&media={{ product.featured_image | img_url: '800x' }}&description={{ product.title }}" target="_blank">Pinterest</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- JS for Image Gallery -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const mainImage = document.getElementById("mainProductImage");
+  const thumbnails = document.querySelectorAll(".thumbnail");
+
+  thumbnails.forEach(thumb => {
+    thumb.addEventListener("click", () => {
+      mainImage.src = thumb.src;
+      thumbnails.forEach(t => t.classList.remove("active"));
+      thumb.classList.add("active");
+    });
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Product Custom Page",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show Vendor",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social_share",
+      "label": "Show Social Share",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Product Page"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+.product-page {
+  padding: 60px 0;
+}
+.product-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+.product-images {
+  position: relative;
+}
+.thumbnail-list {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+.thumbnail {
+  width: 80px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.thumbnail.active,
+.thumbnail:hover {
+  border-color: #000;
+}
+.product-title {
+  font-size: 28px;
+  font-weight: 600;
+}
+.product-price {
+  font-size: 20px;
+  margin: 15px 0;
+}
+.old-price {
+  text-decoration: line-through;
+  color: #999;
+  margin-right: 10px;
+}
+.in-stock {
+  color: green;
+}
+.out-of-stock {
+  color: red;
+}
+.btn.add-to-cart {
+  display: inline-block;
+  margin-top: 20px;
+  background: #000;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn.add-to-cart:hover {
+  background: #333;
+}
+.product-description {
+  margin-top: 40px;
+}
+.social-share {
+  margin-top: 30px;
+}
+.social-share a {
+  margin-right: 15px;
+  text-decoration: none;
+  color: #333;
+}
+.social-share a:hover {
+  color: #000;
+  text-decoration: underline;
+}
+@media (max-width: 768px) {
+  .product-layout {
+    grid-template-columns: 1fr;
+  }
+}
+{% endstylesheet %}
