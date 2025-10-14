@@ -3,7 +3,7 @@
     <h1 class="cart-title">Your Shopping Cart</h1>
 
     {% if cart.item_count > 0 %}
-      <form action="{{ routes.cart_url }}" method="post" novalidate class="cart-form">
+      <form id="CartForm" action="{{ routes.cart_url }}" method="post" novalidate class="cart-form">
         <table class="cart-table">
           <thead>
             <tr>
@@ -53,9 +53,10 @@
             <p>Subtotal: <strong>{{ cart.total_price | money }}</strong></p>
             <p class="tax-note">Taxes and shipping calculated at checkout.</p>
           </div>
+
           <div class="cart-buttons">
             <button type="submit" name="update" class="btn update-cart">Update Cart</button>
-            <a href="{{ routes.checkout_url }}" class="btn checkout-btn">Checkout</a>
+            <button type="button" id="CheckoutButton" class="btn checkout-btn">Checkout</button>
           </div>
         </div>
       </form>
@@ -65,6 +66,7 @@
     {% endif %}
   </div>
 </section>
+
 
 <style>
     .cart-section {
@@ -149,9 +151,12 @@
     </style>
 
     <script>
+
         document.addEventListener("DOMContentLoaded", () => {
   const removeButtons = document.querySelectorAll(".remove-btn");
+  const checkoutButton = document.getElementById("CheckoutButton");
 
+  // Remove item
   removeButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const line = btn.dataset.line;
@@ -165,7 +170,7 @@
     });
   });
 
-  // Auto-update quantities
+  // Auto update quantity
   const quantityInputs = document.querySelectorAll(".cart-quantity-input");
   quantityInputs.forEach((input) => {
     input.addEventListener("change", () => {
@@ -180,6 +185,27 @@
         .catch(console.error);
     });
   });
+
+  // Checkout button
+  if (checkoutButton) {
+    checkoutButton.addEventListener("click", async () => {
+      try {
+        // Sync latest cart (in case user changed quantities)
+        const response = await fetch("/cart.js");
+        const cart = await response.json();
+
+        if (cart.item_count === 0) {
+          alert("Your cart is empty!");
+          return;
+        }
+
+        // Redirect to checkout (Shopify native)
+        window.location.href = "/checkout";
+      } catch (error) {
+        console.error("Checkout error:", error);
+      }
+    });
+  }
 });
 
-    </script>
+        </script>
