@@ -1,0 +1,137 @@
+{% comment %}
+Main Blog Section with customizable settings
+{% endcomment %}
+<section class="blog-main container">
+  <div class="blog-header">
+    {% if section.settings.heading != blank %}
+      <h1>{{ section.settings.heading }}</h1>
+    {% endif %}
+    {% if section.settings.subheading != blank %}
+      <p>{{ section.settings.subheading }}</p>
+    {% endif %}
+  </div>
+
+  <div class="blogs-category">
+    {% for block in section.blocks %}
+      {% assign blog = blogs[block.settings.blog] %}
+      {% if blog %}
+        <div class="blog-category-block">
+          <div class="category-header">
+            <h2>{{ blog.title }}</h2>
+            <a href="{{ blog.url }}" class="view-all">View all →</a>
+          </div>
+
+          <div class="blog-grid">
+            {% for article in blog.articles limit: 4 %}
+              <div class="blog-card">
+                <a href="{{ article.url }}">
+                  {% if article.image %}
+                    <img src="{{ article.image | img_url: 'medium' }}" alt="{{ article.title }}">
+                  {% endif %}
+                  <h3>{{ article.title }}</h3>
+                  <p>{{ article.excerpt | strip_html | truncate: 100 }}</p>
+                </a>
+                <span class="date">{{ article.published_at | date: "%B %d, %Y" }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+.blog-main {
+  padding: 60px 20px;
+}
+.blog-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+.blog-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 16px;
+  transition: transform 0.3s;
+}
+.blog-card:hover {
+  transform: translateY(-5px);
+}
+.blog-card img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+.blog-card h3 {
+  font-size: 18px;
+  color: #222;
+}
+.blog-card p {
+  color: #555;
+  font-size: 14px;
+}
+.date {
+  display: block;
+  margin-top: 8px;
+  color: #888;
+  font-size: 13px;
+}
+.view-all {
+  font-size: 14px;
+  color: #007acc;
+  text-decoration: underline;
+}
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+</style>
+
+{% schema %}
+{
+  "name": "Blog Main Page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "Our Blog"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Latest news and stories"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "blog-category",
+      "name": "Blog Category",
+      "settings": [
+        {
+          "type": "blog",
+          "id": "blog",
+          "label": "Select Blog Category"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Blog Main Page",
+      "category": "Blog"
+    }
+  ]
+}
+{% endschema %}
