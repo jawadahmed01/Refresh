@@ -26,19 +26,10 @@
         "logo": "shopify://shop_images/logo.png",
         "menu": "main-menu"
       }
-    },
-    "blog_main_UKYVf6": {
-      "type": "blog-main",
-      "name": "Blog Main Page",
-      "settings": {
-        "heading": "Our Blog",
-        "subheading": "Latest news and stories"
-      }
     }
   },
   "order": [
     "announcement_bar_4bD7Gi",
-    "header",
-    "blog_main_UKYVf6"
+    "header"
   ]
 }
